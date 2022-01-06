@@ -11,7 +11,7 @@ Widget field(output, String key, FParas paras) {
         decoration: InputDecoration(
           border: const OutlineInputBorder(),
           label: Text('${paras.label ?? key}'),
-          helperText: (paras.required) ? '* Required' : null,
+          helperText: (!paras.isNullable) ? '* Required' : null,
         ),
         onSaved: (v) => output[key] = _onSaved(v, paras),
       );
@@ -41,46 +41,45 @@ TextInputType? _keyboardType(FParas paras) {
   }
 }
 
-String? _validator(value, FParas paras) {
-  if (paras.required) {
+String? _validator(String? value, FParas paras) {
+  if (!paras.isNullable) {
     switch (paras.type) {
       case FType.int:
-        if (!(int.tryParse(value ?? '') != null)) {
-          return 'Please enter valid number';
-        }
-        return null;
+        return !intCheck(value) ? 'Please enter valid number' : null;
       default:
-        if (value == null || value.isEmpty) {
-          return 'Please enter some text';
-        }
-        return null;
+        return !strCheck(value) ? 'Please enter some text' : null;
     }
   }
   return null;
 }
 
-dynamic _onSaved(newValue, FParas paras) {
+dynamic _onSaved(String? newValue, FParas paras) {
   dynamic retVal = newValue;
   switch (paras.type) {
     case FType.int:
-      retVal = int.parse(newValue ?? '0');
+      retVal = intCheck(newValue) ? int.parse(newValue ?? '0') : null;
       break;
     default:
   }
   return retVal;
 }
 
+bool intCheck(val) => int.tryParse(val ?? '') != null;
+bool strCheck(val) => !(val == null || val.isEmpty);
+
 class FParas {
   FType type;
   FField field;
   String? label;
-  bool required;
+  bool isNullable;
+  String? validatorText;
 
   FParas({
     required this.type,
     this.field = FField.textbox,
-    this.required = false,
+    this.isNullable = false,
     this.label,
+    this.validatorText,
   });
 }
 

@@ -3,19 +3,22 @@ import 'dart:convert';
 import 'package:jeehbs/models/f_paras.dart';
 
 class Person {
-  String? name;
+  String name;
   int? age;
   bool isCool;
   Person({
-    this.name,
+    required this.name,
     this.age,
     this.isCool = false,
   });
 
+  static String nameField = 'name';
+  static String ageField = 'age';
+  static String isCoolField = 'isCool';
   static Map<String, FParas> fields = {
-    'name': FParas(type: FType.string, required: true),
-    'age': FParas(type: FType.int),
-    'isCool': FParas(type: FType.bool, field: FField.checkbox),
+    nameField: FParas(type: FType.string),
+    ageField: FParas(type: FType.int, isNullable: true),
+    isCoolField: FParas(type: FType.bool, field: FField.checkbox),
   };
 
   Map<String, dynamic> toMap() {

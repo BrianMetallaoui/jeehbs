@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jeehbs/main_x.dart';
 import 'package:jeehbs/models/f_paras.dart';
+import 'package:jeehbs/main_x.dart';
 
 import 'models/person.dart';
 
 class PersonForm extends StatelessWidget {
-  const PersonForm({Key? key, this.p}) : super(key: key);
-  final Person? p;
+  const PersonForm({Key? key, this.person}) : super(key: key);
+  final Person? person;
 
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
 
-    Map<String, dynamic> model = (p != null) ? p!.toMap() : {};
+    Map<String, dynamic> model = (person != null) ? person!.toMap() : {};
     Widget f(String key) => field(model, key, Person.fields[key]!);
 
     return Scaffold(
@@ -29,11 +29,11 @@ class PersonForm extends StatelessWidget {
                 key: _formKey,
                 child: Column(
                   children: [
-                    f('name'),
+                    f(Person.nameField),
                     Row(
                       children: [
-                        Expanded(child: f('age')),
-                        Expanded(child: f('isCool')),
+                        Expanded(child: f(Person.ageField)),
+                        Expanded(child: f(Person.isCoolField)),
                       ],
                     ),
                   ],

@@ -41,9 +41,9 @@ class MyHomePage extends StatelessWidget {
                   .map(
                     (e) => ListTile(
                       leading: (e.isCool) ? Text('X') : null,
-                      title: Text(e.name!),
-                      trailing: Text(e.age!.toString()),
-                      onTap: () => Get.to(PersonForm(p: e)),
+                      title: Text(e.name),
+                      trailing: Text((e.age ?? '').toString()),
+                      onTap: () => Get.to(PersonForm(person: e)),
                     ),
                   )
                   .toList(),
