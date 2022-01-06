@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 class CounterFormField extends FormField<int> {
   CounterFormField({
+    Key? key,
     FormFieldSetter<int>? onSaved,
     FormFieldValidator<int>? validator,
     int initialValue = 0,
   }) : super(
+          key: key,
           onSaved: onSaved,
           validator: validator,
           initialValue: initialValue,
@@ -14,14 +16,14 @@ class CounterFormField extends FormField<int> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 IconButton(
-                  icon: Icon(Icons.remove),
+                  icon: const Icon(Icons.remove),
                   onPressed: () {
                     state.didChange(state.value! - 1);
                   },
                 ),
                 Text(state.value.toString()),
                 IconButton(
-                  icon: Icon(Icons.add),
+                  icon: const Icon(Icons.add),
                   onPressed: () {
                     state.didChange(state.value! + 1);
                   },

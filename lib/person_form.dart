@@ -47,7 +47,7 @@ class PersonForm extends StatelessWidget {
                     Get.back();
                   }
                 },
-                child: Text('Save'),
+                child: const Text('Save'),
               ),
             ],
           ),

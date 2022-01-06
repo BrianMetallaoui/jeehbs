@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jeehbs/models/person.dart';
 
@@ -9,7 +10,7 @@ class MainX extends GetxController {
       persons.add(Person.fromMap(input));
       update();
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 }

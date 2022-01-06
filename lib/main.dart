@@ -40,7 +40,7 @@ class MyHomePage extends StatelessWidget {
               ...conX.persons
                   .map(
                     (e) => ListTile(
-                      leading: (e.isCool) ? Text('X') : null,
+                      leading: (e.isCool) ? const Text('X') : null,
                       title: Text(e.name),
                       trailing: Text((e.age ?? '').toString()),
                       onTap: () => Get.to(PersonForm(person: e)),
@@ -48,8 +48,8 @@ class MyHomePage extends StatelessWidget {
                   )
                   .toList(),
               ElevatedButton(
-                onPressed: () => Get.to(PersonForm()),
-                child: Text('Add'),
+                onPressed: () => Get.to(const PersonForm()),
+                child: const Text('Add'),
               )
             ],
           ),

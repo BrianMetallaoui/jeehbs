@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 Widget field(output, String key, FParas paras) {
-  Widget retVal = Text('${paras.label ?? key}');
+  Widget retVal = Text(paras.label ?? key);
   switch (paras.field) {
     case FField.textbox:
       retVal = TextFormField(
@@ -10,7 +10,7 @@ Widget field(output, String key, FParas paras) {
         keyboardType: _keyboardType(paras),
         decoration: InputDecoration(
           border: const OutlineInputBorder(),
-          label: Text('${paras.label ?? key}'),
+          label: Text(paras.label ?? key),
           helperText: (!paras.isNullable) ? '* Required' : null,
         ),
         onSaved: (v) => output[key] = _onSaved(v, paras),
@@ -21,13 +21,13 @@ Widget field(output, String key, FParas paras) {
         builder: (thisLowerContext, sState) => CheckboxListTile(
           value: output[key] ?? false,
           onChanged: (v) => sState(() => output[key] = v),
-          title: Text('${paras.label ?? key}'),
+          title: Text(paras.label ?? key),
         ),
       );
       break;
   }
   return Padding(
-    padding: EdgeInsets.all(8.0),
+    padding: const EdgeInsets.all(8.0),
     child: retVal,
   );
 }
@@ -42,15 +42,32 @@ TextInputType? _keyboardType(FParas paras) {
 }
 
 String? _validator(String? value, FParas paras) {
+  String? retVal;
   if (!paras.isNullable) {
+    //Can NOT be null
     switch (paras.type) {
       case FType.int:
-        return !intCheck(value) ? 'Please enter valid number' : null;
+        retVal = !intCheck(value)
+            ? paras.validatorText ?? 'Please enter valid number'
+            : null;
+        break;
       default:
-        return !strCheck(value) ? 'Please enter some text' : null;
+        retVal = !strCheck(value)
+            ? paras.validatorText ?? 'Please enter some text'
+            : null;
+    }
+  } else if (strCheck(value)) {
+    //Can be null but check if the value is correct
+    switch (paras.type) {
+      case FType.int:
+        retVal = !intCheck(value)
+            ? paras.validatorText ?? 'Please enter valid number or no value'
+            : null;
+        break;
+      default:
     }
   }
-  return null;
+  return retVal;
 }
 
 dynamic _onSaved(String? newValue, FParas paras) {
