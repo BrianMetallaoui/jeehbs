@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jeehbs/models/f_paras.dart';
-import 'package:jeehbs/main_x.dart';
+import 'package:jeehbs/controllers/main_x.dart';
+import 'package:jeehbs/widgets/fields/my_field.dart';
 
 import 'models/person.dart';
 
@@ -14,7 +14,7 @@ class PersonForm extends StatelessWidget {
     final _formKey = GlobalKey<FormState>();
 
     Map<String, dynamic> model = (person != null) ? person!.toMap() : {};
-    Widget f(String key) => field(model, key, Person.fields[key]!);
+    Widget f(String key) => myField(model, key, Person.fields[key]!);
 
     return Scaffold(
       appBar: AppBar(

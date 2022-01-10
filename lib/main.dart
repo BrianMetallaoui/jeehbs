@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jeehbs/main_x.dart';
+import 'package:jeehbs/controllers/main_x.dart';
 import 'package:jeehbs/person_form.dart';
 
 void main() {
