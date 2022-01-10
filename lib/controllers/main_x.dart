@@ -1,16 +1,16 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jeehbs/models/person.dart';
+import 'package:jeehbs/models/models.dart';
 
 class MainX extends GetxController {
-  List<Person> persons = [];
+  List<Food> foods = [];
 
-  add(Map<String, dynamic> input) {
-    try {
-      persons.add(Person.fromMap(input));
-      update();
-    } catch (e) {
-      debugPrint(e.toString());
+  void saveFood(Food food) {
+    var x = foods.indexWhere((i) => i.id == food.id);
+    if (x > -1) {
+      foods[x] = food;
+    } else {
+      foods.add(food);
     }
+    update();
   }
 }

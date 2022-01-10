@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:jeehbs/controllers/main_x.dart';
-import 'package:jeehbs/person_form.dart';
+import 'package:jeehbs/pages/home_page.dart';
 
-void main() {
+void main() async {
+  await GetStorage.init();
   Get.put(MainX());
   runApp(const MyApp());
 }
@@ -15,46 +17,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Flutter Demo Home Page'),
-      ),
-      body: Center(
-        child: GetBuilder<MainX>(
-          builder: (conX) => Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ...conX.persons
-                  .map(
-                    (e) => ListTile(
-                      leading: (e.isCool) ? const Text('X') : null,
-                      title: Text(e.name),
-                      trailing: Text((e.age ?? '').toString()),
-                      onTap: () => Get.to(PersonForm(person: e)),
-                    ),
-                  )
-                  .toList(),
-              ElevatedButton(
-                onPressed: () => Get.to(const PersonForm()),
-                child: const Text('Add'),
-              )
-            ],
-          ),
-        ),
-      ),
+      theme: ThemeData(primarySwatch: Colors.teal),
+      home: const HomePage(),
     );
   }
 }

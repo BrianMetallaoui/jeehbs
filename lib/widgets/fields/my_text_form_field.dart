@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jeehbs/models/f_paras.dart';
-import 'package:jeehbs/utils.dart';
+import 'package:jeehbs/utils/checks.dart';
 
 class MyTextFormField extends StatelessWidget {
   const MyTextFormField(this.output, this.objKey, this.paras, {Key? key})
