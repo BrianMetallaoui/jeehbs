@@ -8,11 +8,10 @@ class IngredientForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> model = ingredient.toMap();
+    Map<String, FParas> fields = ingredient.fields();
+
     Widget f(String objKey, [String? helperText]) => myField(
-          model,
-          objKey,
-          Ingredient.fields[objKey]!,
+          fields[objKey]!,
           helperText: helperText,
         );
 

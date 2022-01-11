@@ -4,18 +4,16 @@ import 'package:jeehbs/widgets/fields/my_checkbox.dart';
 import 'package:jeehbs/widgets/fields/my_text_form_field.dart';
 
 Widget myField(
-  Map<String, dynamic> output,
-  String objKey,
   FParas paras, {
   String? helperText,
 }) {
-  Widget retVal = Text(paras.label ?? objKey);
+  Widget retVal = Text(paras.label ?? paras.objKey);
   switch (paras.field) {
     case FField.textbox:
-      retVal = MyTextFormField(output, objKey, paras, helperText: helperText);
+      retVal = MyTextFormField(paras, helperText: helperText);
       break;
     case FField.checkbox:
-      retVal = MyCheckbox(output, objKey, paras);
+      retVal = MyCheckbox(paras);
       break;
   }
   return Padding(

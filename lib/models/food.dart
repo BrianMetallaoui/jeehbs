@@ -4,51 +4,39 @@ import 'package:jeehbs/models/models.dart';
 import 'package:jeehbs/utils/my_save.dart';
 
 class Food extends BaseModel {
-  int caloriesPerServing;
-  int totalCalories;
-  int servings;
+  int? caloriesPerServing;
+  int? totalCalories;
+  int? servings;
   List<Ingredient> ingredients = [];
 
   Food({
     String? id,
-    required String name,
-    required this.caloriesPerServing,
-    required this.totalCalories,
-    required this.servings,
-    this.ingredients = const [],
+    String? name,
+    this.caloriesPerServing,
+    this.totalCalories,
+    this.servings,
+    required this.ingredients,
   }) : super(name, id);
 
-  void calucateTotalCalories() {
+  int get calucateTotalCalories {
     if (ingredients.isNotEmpty) {
       totalCalories = ingredients.fold(
         0,
-        (prev, element) => prev + ((element.calories ?? 0) * element.amount),
+        (prev, element) =>
+            (prev ?? 0) + ((element.calories ?? 0) * element.amount),
       );
     }
-    calucateCaloriesPerServing();
+    return calucateCaloriesPerServing() ?? 0;
   }
 
-  void calucateCaloriesPerServing() {
-    caloriesPerServing =
-        (servings > 0) ? (totalCalories / servings).floor() : totalCalories;
+  int? calucateCaloriesPerServing() {
+    return ((servings ?? 0) > 0)
+        ? ((totalCalories ?? 0) / (servings ?? 1)).floor()
+        : totalCalories;
   }
 
-  static int mapTocalucateTotalCalories(Map<String, dynamic> input) {
-    var f = Food.fromMap(input);
-    if (f.ingredients.isNotEmpty) {
-      f.totalCalories = f.ingredients.fold(
-        0,
-        (prev, element) => prev + ((element.calories ?? 0) * element.amount),
-      );
-    }
-    return mapTocalucateCaloriesPerServing(f.toMap());
-  }
-
-  static int mapTocalucateCaloriesPerServing(Map<String, dynamic> input) {
-    var f = Food.fromMap(input);
-    return (f.servings > 0)
-        ? (f.totalCalories / f.servings).floor()
-        : f.totalCalories;
+  void setCaloriesPerServing() {
+    caloriesPerServing = calucateTotalCalories;
   }
 
   static String nameField = 'name';
@@ -58,21 +46,25 @@ class Food extends BaseModel {
   Map<String, FParas> fields() => {
         nameField: FParas(
           type: FType.string,
+          objKey: nameField,
           initValue: name,
           whenSaved: (v) => name = mySave(v, FType.string),
         ),
         caloriesPerServingField: FParas(
           type: FType.int,
+          objKey: caloriesPerServingField,
           initValue: caloriesPerServing,
           whenSaved: (v) => caloriesPerServing = mySave(v, FType.int),
         ),
         totalCaloriesField: FParas(
           type: FType.int,
+          objKey: totalCaloriesField,
           initValue: totalCalories,
           whenSaved: (v) => totalCalories = mySave(v, FType.int),
         ),
         servingsField: FParas(
           type: FType.int,
+          objKey: servingsField,
           initValue: servings,
           whenSaved: (v) => servings = mySave(v, FType.int),
         ),

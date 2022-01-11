@@ -1,6 +1,7 @@
 class FParas {
   FType type;
   FField field;
+  String objKey;
   String? label;
   bool isNullable;
   String? validatorText;
@@ -12,6 +13,7 @@ class FParas {
     required this.type,
     required this.initValue,
     required this.whenSaved,
+    required this.objKey,
     this.field = FField.textbox,
     this.isNullable = false,
     this.label,

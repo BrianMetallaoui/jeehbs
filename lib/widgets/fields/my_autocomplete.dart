@@ -14,22 +14,23 @@ class MyAutocomplete<T extends BaseModel> extends StatelessWidget {
         textEditingController,
         focusNode,
         onFieldSubmitted,
-      ) =>
-          Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: TextFormField(
-          key: UniqueKey(),
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            label: Text('Search'),
+      ) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextFormField(
+            key: UniqueKey(),
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              label: Text('Search'),
+            ),
+            focusNode: focusNode,
+            controller: textEditingController,
+            onFieldSubmitted: (String value) {
+              onFieldSubmitted();
+            },
           ),
-          focusNode: focusNode,
-          controller: textEditingController,
-          onFieldSubmitted: (String value) {
-            onFieldSubmitted();
-          },
-        ),
-      ),
+        );
+      },
       optionsBuilder: (TextEditingValue textEditingValue) {
         if (textEditingValue.text == '') {
           return [];

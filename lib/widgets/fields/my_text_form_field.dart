@@ -2,29 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:jeehbs/models/f_paras.dart';
 import 'package:jeehbs/utils/checks.dart';
 
-class MyTextFormField extends StatelessWidget {
+class MyTextFormField<T> extends StatelessWidget {
   const MyTextFormField(
-    this.output,
-    this.objKey,
     this.paras, {
     Key? key,
     this.helperText,
   }) : super(key: key);
-  final Map<String, dynamic> output;
   final FParas paras;
-  final String objKey;
   final String? helperText;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       key: UniqueKey(),
-      initialValue: paras.initValue,
+      initialValue: (paras.initValue ?? '').toString(),
       validator: (v) => _validator(v, paras),
       keyboardType: _keyboardType(paras),
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
-        label: Text(paras.label ?? objKey),
+        label: Text(paras.label ?? paras.objKey),
         helperText: _helperText(paras),
       ),
       onSaved: (v) => paras.whenSaved(v),

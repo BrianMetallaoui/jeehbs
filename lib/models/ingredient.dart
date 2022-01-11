@@ -25,20 +25,24 @@ class Ingredient extends BaseModel {
         nameField: FParas(
           type: FType.string,
           initValue: name,
+          objKey: nameField,
           whenSaved: (v) => name = mySave(v, FType.string),
         ),
         caloriesField: FParas(
           type: FType.int,
+          objKey: caloriesField,
           initValue: calories,
           whenSaved: (v) => calories = mySave(v, FType.int),
         ),
         servingSizeField: FParas(
           type: FType.string,
+          objKey: servingSizeField,
           initValue: servingSize,
           whenSaved: (v) => servingSize = mySave(v, FType.string),
         ),
-        servingSizeField: FParas(
+        amountField: FParas(
           type: FType.int,
+          objKey: amountField,
           initValue: amount,
           whenSaved: (v) => amount = mySave(v, FType.int),
         ),
@@ -60,7 +64,7 @@ class Ingredient extends BaseModel {
       name: map['name'] ?? '',
       calories: map['calories']?.toInt() ?? 0,
       servingSize: map['servingSize'] ?? '',
-      amount: map['calories']?.toInt() ?? 1,
+      amount: map['amount']?.toInt() ?? 1,
     );
   }
 

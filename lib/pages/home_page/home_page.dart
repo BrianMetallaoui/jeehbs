@@ -22,12 +22,12 @@ class HomePage extends StatelessWidget {
                         title: Text((e.name ?? '???')),
                         subtitle: Text(e.servings.toString()),
                         trailing: Text(e.caloriesPerServing.toString()),
-                        onTap: () => Get.to(FoodForm(food: e)),
+                        onTap: () => Get.to(() => FoodForm(food: e)),
                       ),
                     )
                     .toList(),
                 ElevatedButton(
-                  onPressed: () => Get.to(const FoodForm()),
+                  onPressed: () => Get.to(() => const FoodForm()),
                   child: const Text('Add Food'),
                 )
               ],

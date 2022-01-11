@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:jeehbs/controllers/main_x.dart';
 import 'package:jeehbs/data/foods.dart';
 import 'package:jeehbs/models/models.dart';
-import 'package:jeehbs/widgets/fields/ingredients_form.dart';
+import 'package:jeehbs/widgets/fields/Ingredient_form.dart';
 import 'package:jeehbs/widgets/fields/my_autocomplete.dart';
 import 'package:jeehbs/widgets/fields/my_field.dart';
 
@@ -18,22 +18,25 @@ class FoodForm extends StatefulWidget {
 class _FoodFormState extends State<FoodForm> {
   final _formKey = GlobalKey<FormState>();
 
-  late Map<String, dynamic> model;
+  late Food model;
+  late Map<String, FParas> fields;
   Widget f(String objKey, [String? helperText]) => myField(
-        model,
-        objKey,
-        Food.fields()[objKey]!,
+        fields[objKey]!,
         helperText: helperText,
       );
 
   @override
   void initState() {
     super.initState();
-    model = (widget.food != null) ? widget.food!.toMap() : {};
+    refresh(widget.food);
   }
 
-  String get cps =>
-      'Calories Per Serving: ${model[Food.caloriesPerServingField] ?? ''}';
+  void refresh(Food? f) {
+    model = (f != null) ? f : Food(ingredients: []);
+    fields = model.fields();
+  }
+
+  String get cps => 'Calories Per Serving: ${model.caloriesPerServing ?? ''}';
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +57,7 @@ class _FoodFormState extends State<FoodForm> {
                   children: [
                     MyAutocomplete<Food>(
                       foods,
-                      (Food s) => setState(() => model = s.clone().toMap()),
+                      (Food s) => setState(() => refresh(s.clone())),
                     ),
                     f(Food.nameField),
                     Row(
@@ -68,7 +71,7 @@ class _FoodFormState extends State<FoodForm> {
                         Expanded(
                             child: f(
                           Food.caloriesPerServingField,
-                          Food.mapTocalucateTotalCalories(model).toString(),
+                          model.calucateTotalCalories.toString(),
                         )),
                         Expanded(
                           child: Row(
@@ -78,9 +81,11 @@ class _FoodFormState extends State<FoodForm> {
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {
                                     _formKey.currentState!.save();
-                                    var food = Food.fromMap(model)
-                                      ..calucateTotalCalories();
-                                    setState(() => model = food.toMap());
+
+                                    setState(() {
+                                      model.setCaloriesPerServing();
+                                      refresh(model);
+                                    });
                                   }
                                 },
                                 child: const Text('Calc'),
@@ -90,22 +95,31 @@ class _FoodFormState extends State<FoodForm> {
                         ),
                       ],
                     ),
+                    Column(
+                      children: [
+                        ...model.ingredients
+                            .map((e) => IngredientForm(e))
+                            .toList(),
+                        IconButton(
+                          onPressed: () {
+                            _formKey.currentState!.save();
+                            setState(() {
+                              model.ingredients.add(Ingredient());
+                              refresh(model);
+                            });
+                          },
+                          icon: const Icon(Icons.add),
+                        )
+                      ],
+                    ),
                   ],
                 ),
-              ),
-              IngredientsForm(
-                initialValue: (model['ingredients'] != null)
-                    ? List<Ingredient>.from(
-                        model['ingredients']?.map((x) => Ingredient.fromMap(x)),
-                      )
-                    : [],
               ),
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    var food = Food.fromMap(model);
-                    conX.saveFood(food);
+                    conX.saveFood(model);
                     Get.back();
                   }
                 },
