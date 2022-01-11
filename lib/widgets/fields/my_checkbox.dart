@@ -16,6 +16,7 @@ class _MyCheckboxState extends State<MyCheckbox> {
   @override
   Widget build(BuildContext context) {
     return CheckboxListTile(
+      key: UniqueKey(),
       value: widget.output[widget.objKey] ?? false,
       onChanged: (v) => setState(() => widget.output[widget.objKey] = v),
       title: Text(widget.paras.label ?? widget.objKey),

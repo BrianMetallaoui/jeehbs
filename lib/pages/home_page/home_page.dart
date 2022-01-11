@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jeehbs/controllers/main_x.dart';
-import 'package:jeehbs/pages/forms/food_form.dart';
+import 'package:jeehbs/pages/food_form/food_form.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
                 ...conX.foods
                     .map(
                       (e) => ListTile(
-                        title: Text(e.name),
+                        title: Text((e.name ?? '???')),
                         subtitle: Text(e.servings.toString()),
                         trailing: Text(e.caloriesPerServing.toString()),
                         onTap: () => Get.to(FoodForm(food: e)),

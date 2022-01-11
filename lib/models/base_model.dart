@@ -4,17 +4,22 @@ import 'package:uuid/uuid.dart';
 
 class BaseModel {
   String _id;
+  String? name;
 
-  BaseModel([String? id]) : _id = id ?? const Uuid().v4();
+  BaseModel(this.name, [String? id]) : _id = id ?? const Uuid().v4();
 
   Map<String, dynamic> toMap() {
-    return {'id': _id};
+    return {'name': name, 'id': _id};
   }
 
   String get id => _id;
 
+  newId() {
+    _id = const Uuid().v4();
+  }
+
   factory BaseModel.fromMap(Map<String, dynamic> map) {
-    return BaseModel(map['id']);
+    return BaseModel(map['name'], map['id']);
   }
 
   String toJson() => json.encode(toMap());

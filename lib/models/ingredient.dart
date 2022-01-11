@@ -2,35 +2,55 @@ import 'dart:convert';
 
 import 'package:jeehbs/models/base_model.dart';
 import 'package:jeehbs/models/f_paras.dart';
+import 'package:jeehbs/utils/my_save.dart';
 
 class Ingredient extends BaseModel {
-  String name;
-  int calories;
-  String servingSize;
+  int? calories;
+  int amount;
+  String? servingSize;
 
   Ingredient({
     String? id,
-    required this.name,
-    required this.calories,
-    required this.servingSize,
-  }) : super(id);
+    String? name,
+    this.calories,
+    this.servingSize,
+    this.amount = 1,
+  }) : super(name, id);
 
   static String nameField = 'name';
   static String caloriesField = 'calories';
   static String servingSizeField = 'servingSize';
-  static Map<String, FParas> fields = {
-    nameField: FParas(type: FType.string),
-    caloriesField: FParas(type: FType.int),
-    servingSizeField: FParas(type: FType.string),
-  };
+  static String amountField = 'amount';
+  Map<String, FParas> fields() => {
+        nameField: FParas(
+          type: FType.string,
+          initValue: name,
+          whenSaved: (v) => name = mySave(v, FType.string),
+        ),
+        caloriesField: FParas(
+          type: FType.int,
+          initValue: calories,
+          whenSaved: (v) => calories = mySave(v, FType.int),
+        ),
+        servingSizeField: FParas(
+          type: FType.string,
+          initValue: servingSize,
+          whenSaved: (v) => servingSize = mySave(v, FType.string),
+        ),
+        servingSizeField: FParas(
+          type: FType.int,
+          initValue: amount,
+          whenSaved: (v) => amount = mySave(v, FType.int),
+        ),
+      };
 
   @override
   Map<String, dynamic> toMap() {
     return {
       ...super.toMap(),
-      'name': name,
       'calories': calories,
-      'servingSze': servingSize,
+      'servingSize': servingSize,
+      'amount': amount,
     };
   }
 
@@ -39,7 +59,8 @@ class Ingredient extends BaseModel {
       id: map['id'],
       name: map['name'] ?? '',
       calories: map['calories']?.toInt() ?? 0,
-      servingSize: map['servingSze'] ?? '',
+      servingSize: map['servingSize'] ?? '',
+      amount: map['calories']?.toInt() ?? 1,
     );
   }
 

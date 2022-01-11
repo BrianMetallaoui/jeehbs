@@ -1,0 +1,28 @@
+import 'package:flutter/material.dart';
+import 'package:jeehbs/models/models.dart';
+import 'package:jeehbs/widgets/fields/my_field.dart';
+
+class IngredientForm extends StatelessWidget {
+  const IngredientForm(this.ingredient, {Key? key}) : super(key: key);
+  final Ingredient ingredient;
+
+  @override
+  Widget build(BuildContext context) {
+    Map<String, dynamic> model = ingredient.toMap();
+    Widget f(String objKey, [String? helperText]) => myField(
+          model,
+          objKey,
+          Ingredient.fields[objKey]!,
+          helperText: helperText,
+        );
+
+    return Row(
+      children: [
+        Expanded(child: f(Ingredient.nameField)),
+        Expanded(child: f(Ingredient.caloriesField)),
+        Expanded(child: f(Ingredient.amountField)),
+        Expanded(child: f(Ingredient.servingSizeField)),
+      ],
+    );
+  }
+}

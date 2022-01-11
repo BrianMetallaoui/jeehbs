@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:jeehbs/models/models.dart';
+import 'package:jeehbs/utils/my_save.dart';
 
 class Food extends BaseModel {
-  String name;
   int caloriesPerServing;
   int totalCalories;
   int servings;
@@ -11,43 +11,77 @@ class Food extends BaseModel {
 
   Food({
     String? id,
-    required this.name,
+    required String name,
     required this.caloriesPerServing,
     required this.totalCalories,
     required this.servings,
     this.ingredients = const [],
-  }) : super(id);
+  }) : super(name, id);
 
-  static int calucateTotalCalories(Food food) {
-    if (food.ingredients.isNotEmpty) {
-      food.totalCalories =
-          food.ingredients.fold(0, (prev, element) => prev + element.calories);
+  void calucateTotalCalories() {
+    if (ingredients.isNotEmpty) {
+      totalCalories = ingredients.fold(
+        0,
+        (prev, element) => prev + ((element.calories ?? 0) * element.amount),
+      );
     }
-    return calucateCaloriesPerServing(food);
+    calucateCaloriesPerServing();
   }
 
-  static int calucateCaloriesPerServing(Food food) {
-    return (food.servings > 0)
-        ? (food.totalCalories / food.servings).floor()
-        : food.totalCalories;
+  void calucateCaloriesPerServing() {
+    caloriesPerServing =
+        (servings > 0) ? (totalCalories / servings).floor() : totalCalories;
+  }
+
+  static int mapTocalucateTotalCalories(Map<String, dynamic> input) {
+    var f = Food.fromMap(input);
+    if (f.ingredients.isNotEmpty) {
+      f.totalCalories = f.ingredients.fold(
+        0,
+        (prev, element) => prev + ((element.calories ?? 0) * element.amount),
+      );
+    }
+    return mapTocalucateCaloriesPerServing(f.toMap());
+  }
+
+  static int mapTocalucateCaloriesPerServing(Map<String, dynamic> input) {
+    var f = Food.fromMap(input);
+    return (f.servings > 0)
+        ? (f.totalCalories / f.servings).floor()
+        : f.totalCalories;
   }
 
   static String nameField = 'name';
   static String caloriesPerServingField = 'caloriesPerServing';
   static String totalCaloriesField = 'totalCalories';
   static String servingsField = 'servings';
-  static Map<String, FParas> fields = {
-    nameField: FParas(type: FType.string),
-    caloriesPerServingField: FParas(type: FType.int),
-    totalCaloriesField: FParas(type: FType.int),
-    servingsField: FParas(type: FType.int),
-  };
+  Map<String, FParas> fields() => {
+        nameField: FParas(
+          type: FType.string,
+          initValue: name,
+          whenSaved: (v) => name = mySave(v, FType.string),
+        ),
+        caloriesPerServingField: FParas(
+          type: FType.int,
+          initValue: caloriesPerServing,
+          whenSaved: (v) => caloriesPerServing = mySave(v, FType.int),
+        ),
+        totalCaloriesField: FParas(
+          type: FType.int,
+          initValue: totalCalories,
+          whenSaved: (v) => totalCalories = mySave(v, FType.int),
+        ),
+        servingsField: FParas(
+          type: FType.int,
+          initValue: servings,
+          whenSaved: (v) => servings = mySave(v, FType.int),
+        ),
+      };
 
   @override
   Map<String, dynamic> toMap() {
     return {
       ...super.toMap(),
-      'name': name,
       'caloriesPerServing': caloriesPerServing,
       'totalCalories': totalCalories,
       'servings': servings,
@@ -72,5 +106,11 @@ class Food extends BaseModel {
               map['ingredients']?.map((x) => Ingredient.fromMap(x)))
           : [],
     );
+  }
+
+  Food clone() {
+    var x = Food.fromMap(toMap());
+    x.newId();
+    return x;
   }
 }

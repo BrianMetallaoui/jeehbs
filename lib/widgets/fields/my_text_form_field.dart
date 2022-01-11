@@ -3,25 +3,38 @@ import 'package:jeehbs/models/f_paras.dart';
 import 'package:jeehbs/utils/checks.dart';
 
 class MyTextFormField extends StatelessWidget {
-  const MyTextFormField(this.output, this.objKey, this.paras, {Key? key})
-      : super(key: key);
+  const MyTextFormField(
+    this.output,
+    this.objKey,
+    this.paras, {
+    Key? key,
+    this.helperText,
+  }) : super(key: key);
   final Map<String, dynamic> output;
   final FParas paras;
   final String objKey;
+  final String? helperText;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      initialValue: (output[objKey] ?? "").toString(),
+      key: UniqueKey(),
+      initialValue: paras.initValue,
       validator: (v) => _validator(v, paras),
       keyboardType: _keyboardType(paras),
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
         label: Text(paras.label ?? objKey),
-        helperText: (!paras.isNullable) ? '* Required' : null,
+        helperText: _helperText(paras),
       ),
-      onSaved: (v) => output[objKey] = _onSaved(v, paras),
+      onSaved: (v) => paras.whenSaved(v),
     );
+  }
+
+  String? _helperText(FParas paras) {
+    String? retVal = helperText ?? paras.helperText;
+    if (retVal == null && !paras.isNullable) retVal = '* Required';
+    return retVal;
   }
 
   TextInputType? _keyboardType(FParas paras) {
@@ -58,17 +71,6 @@ class MyTextFormField extends StatelessWidget {
           break;
         default:
       }
-    }
-    return retVal;
-  }
-
-  dynamic _onSaved(String? newValue, FParas paras) {
-    dynamic retVal = newValue;
-    switch (paras.type) {
-      case FType.int:
-        retVal = intCheck(newValue) ? int.parse(newValue ?? '0') : null;
-        break;
-      default:
     }
     return retVal;
   }
