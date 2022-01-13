@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jeehbs/utils/utils.dart';
 
-class MyTextFormField<T> extends StatelessWidget {
+class MyTextFormField extends StatelessWidget {
   const MyTextFormField(
     this.paras, {
     Key? key,
@@ -20,7 +20,7 @@ class MyTextFormField<T> extends StatelessWidget {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
-        label: Text(paras.label ?? paras.objKey),
+        label: Text(paras.label ?? propertyToName(paras.objKey)),
         helperText: _helperText(paras),
       ),
       onSaved: (v) => paras.whenSaved(v),
