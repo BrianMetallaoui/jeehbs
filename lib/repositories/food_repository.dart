@@ -2,5 +2,10 @@ import 'package:jeehbs/models/models.dart';
 import 'package:jeehbs/repositories/base_repository.dart';
 
 class FoodRepository extends BaseRepository<Food> {
-  FoodRepository() : super(boxItemsKey: 'FOOD', convert: Food.fromJson);
+  static String boxItemsKeyValue = 'FOOD';
+  FoodRepository()
+      : super(
+          boxItemsKey: boxItemsKeyValue,
+          convertJsonToItem: Food.fromJson,
+        );
 }
