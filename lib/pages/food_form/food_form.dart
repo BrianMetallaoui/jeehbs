@@ -4,7 +4,8 @@ import 'package:jeehbs/controllers/main_x.dart';
 import 'package:jeehbs/data/foods.dart';
 import 'package:jeehbs/models/models.dart';
 import 'package:jeehbs/my_fields/my_fields.dart';
-import 'package:jeehbs/widgets/fields/ingredient_form.dart';
+
+import './components/ingredient_form.dart';
 
 class FoodForm extends StatefulWidget {
   const FoodForm({Key? key, this.food}) : super(key: key);
