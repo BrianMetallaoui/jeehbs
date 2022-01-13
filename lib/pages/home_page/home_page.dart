@@ -18,15 +18,13 @@ class HomePage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
-                children: <Widget>[
-                  ...conX.items.map((e) => FoodTile(e)).toList(),
-                  ElevatedButton(
-                    onPressed: () => Get.to(() => const FoodForm()),
-                    child: const Text('Add Food'),
-                  ),
-                ],
+                children: conX.items.map((e) => FoodTile(e)).toList(),
               ),
             ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () => Get.to(() => const FoodForm()),
+            child: const Icon(Icons.add),
           ),
         );
       },
