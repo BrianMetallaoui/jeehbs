@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:jeehbs/controllers/main_x.dart';
+import 'package:jeehbs/controllers/food_x.dart';
 import 'package:jeehbs/pages/home_page/home_page.dart';
+import 'package:jeehbs/repositories/food_repository.dart';
 
 void main() async {
   await GetStorage.init();
-  Get.put(MainX());
+  Get.put(FoodRepository());
+  Get.put(FoodX(Get.find<FoodRepository>()));
   runApp(const MyApp());
 }
 

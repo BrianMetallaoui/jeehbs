@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jeehbs/controllers/main_x.dart';
+import 'package:jeehbs/controllers/food_x.dart';
 import 'package:jeehbs/data/foods.dart';
 import 'package:jeehbs/models/models.dart';
 import 'package:jeehbs/my_fields/my_fields.dart';
+import 'package:jeehbs/widgets/widgets.dart';
 
 import './components/ingredient_form.dart';
 
@@ -37,96 +38,92 @@ class _FoodFormState extends State<FoodForm> {
   }
 
   String get cps => 'Calories Per Serving: ${model.caloriesPerServing ?? ''}';
+  String get title =>
+      (widget.food != null) ? 'Edit ${widget.food!.name}' : 'Add Food';
+
+  void cpsFresh() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      setState(() {
+        model.setCaloriesPerServing();
+        refresh(model);
+      });
+    }
+  }
+
+  void _save() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      Get.find<FoodX>().saveItem(model);
+      Get.back();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          (widget.food != null) ? 'Edit ${widget.food!.name}' : 'Add Food',
-        ),
-      ),
-      body: Center(
-        child: GetBuilder<MainX>(
-          builder: (conX) => Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    MyAutocomplete<Food>(
-                      foods,
-                      (Food s) => setState(() => refresh(s.clone())),
-                    ),
-                    f(Food.nameField),
-                    Row(
-                      children: [
-                        Expanded(child: f(Food.totalCaloriesField)),
-                        Expanded(child: f(Food.servingsField)),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                            child: f(
-                          Food.caloriesPerServingField,
-                          model.calucateTotalCalories.toString(),
-                        )),
-                        Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    _formKey.currentState!.save();
-
-                                    setState(() {
-                                      model.setCaloriesPerServing();
-                                      refresh(model);
-                                    });
-                                  }
-                                },
-                                child: const Text('Calc'),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        ...model.ingredients
-                            .map((e) => IngredientForm(e))
-                            .toList(),
-                        IconButton(
-                          onPressed: () {
-                            _formKey.currentState!.save();
-                            setState(() {
-                              model.ingredients.add(Ingredient());
-                              refresh(model);
-                            });
-                          },
-                          icon: const Icon(Icons.add),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
+      appBar: AppBar(title: Text(title)),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  MyAutocomplete<Food>(
+                    foods,
+                    (Food s) => setState(() => refresh(s.clone())),
+                  ),
+                  f(Food.nameField),
+                  ExpandedRow(
+                    children: [
+                      f(Food.totalCaloriesField),
+                      f(Food.servingsField),
+                    ],
+                  ),
+                  ExpandedRow(
+                    children: [
+                      f(
+                        Food.caloriesPerServingField,
+                        model.calucateTotalCalories.toString(),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: cpsFresh,
+                            child: const Text('Calc'),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      ...model.ingredients
+                          .map((e) => IngredientForm(e))
+                          .toList(),
+                      IconButton(
+                        onPressed: () {
+                          _formKey.currentState!.save();
+                          setState(() {
+                            model.ingredients.add(Ingredient());
+                            refresh(model);
+                          });
+                        },
+                        icon: const Icon(Icons.add),
+                      )
+                    ],
+                  ),
+                ],
               ),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                    conX.saveFood(model);
-                    Get.back();
-                  }
-                },
-                child: const Text('Save'),
-              ),
-            ],
-          ),
+            ),
+            ElevatedButton(
+              onPressed: _save,
+              child: const Text('Save'),
+            ),
+          ],
         ),
       ),
     );

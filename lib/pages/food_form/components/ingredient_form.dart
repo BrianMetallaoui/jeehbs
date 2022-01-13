@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jeehbs/models/models.dart';
 import 'package:jeehbs/my_fields/my_fields.dart';
+import 'package:jeehbs/widgets/widgets.dart';
 
 class IngredientForm extends StatelessWidget {
   const IngredientForm(this.ingredient, {Key? key}) : super(key: key);
@@ -15,12 +16,12 @@ class IngredientForm extends StatelessWidget {
           helperText: helperText,
         );
 
-    return Row(
+    return ExpandedRow(
       children: [
-        Expanded(child: f(Ingredient.nameField)),
-        Expanded(child: f(Ingredient.caloriesField)),
-        Expanded(child: f(Ingredient.amountField)),
-        Expanded(child: f(Ingredient.servingSizeField)),
+        f(Ingredient.nameField),
+        f(Ingredient.caloriesField),
+        f(Ingredient.amountField),
+        f(Ingredient.servingSizeField),
       ],
     );
   }
