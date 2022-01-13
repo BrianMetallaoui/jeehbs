@@ -19,7 +19,6 @@ class MyTextFormField extends StatelessWidget {
       keyboardType: _keyboardType(paras),
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
-        border: const OutlineInputBorder(),
         label: Text(paras.label ?? propertyToName(paras.objKey)),
         helperText: _helperText(paras),
       ),

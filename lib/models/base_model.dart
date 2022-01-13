@@ -4,7 +4,7 @@ import 'package:uuid/uuid.dart';
 
 class BaseModel {
   String _id;
-  String? name;
+  String name;
 
   BaseModel(this.name, [String? id]) : _id = id ?? const Uuid().v4();
 

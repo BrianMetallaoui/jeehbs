@@ -11,7 +11,7 @@ class Food extends BaseModel {
 
   Food({
     String? id,
-    String? name,
+    String name = '',
     this.caloriesPerServing,
     this.totalCalories,
     this.servings,

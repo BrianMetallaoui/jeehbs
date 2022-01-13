@@ -10,7 +10,7 @@ class Ingredient extends BaseModel {
 
   Ingredient({
     String? id,
-    String? name,
+    String name = '',
     this.calories,
     this.servingSize,
     this.amount = 1,

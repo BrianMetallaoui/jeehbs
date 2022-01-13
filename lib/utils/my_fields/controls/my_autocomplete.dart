@@ -19,15 +19,10 @@ class MyAutocomplete<T extends BaseModel> extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
             key: UniqueKey(),
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              label: Text('Search'),
-            ),
+            decoration: const InputDecoration(label: Text('Search')),
             focusNode: focusNode,
             controller: textEditingController,
-            onFieldSubmitted: (String value) {
-              onFieldSubmitted();
-            },
+            onFieldSubmitted: (String value) => onFieldSubmitted(),
           ),
         );
       },
@@ -36,13 +31,13 @@ class MyAutocomplete<T extends BaseModel> extends StatelessWidget {
           return [];
         }
         return items.where(
-          (T option) => (option.name ?? '???')
+          (T option) => (option.name)
               .toLowerCase()
               .contains(textEditingValue.text.toLowerCase()),
         );
       },
       onSelected: onSelect,
-      displayStringForOption: (option) => option.name ?? '???',
+      displayStringForOption: (option) => option.name,
     );
   }
 }

@@ -11,7 +11,7 @@ class FoodTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text((food.name ?? '???')),
+      title: Text(food.name),
       subtitle: Text(food.servings.toString()),
       trailing: Text(food.caloriesPerServing.toString()),
       onTap: () => Get.toNamed(
