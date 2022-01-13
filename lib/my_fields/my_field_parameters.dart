@@ -1,6 +1,6 @@
-class FParas {
-  FType type;
-  FField field;
+class MyFieldParameters {
+  MyFieldType type;
+  MyFieldControl control;
   String objKey;
   String? label;
   bool isNullable;
@@ -9,12 +9,12 @@ class FParas {
   dynamic initValue;
   Function whenSaved;
 
-  FParas({
+  MyFieldParameters({
     required this.type,
     required this.initValue,
     required this.whenSaved,
     required this.objKey,
-    this.field = FField.textbox,
+    this.control = MyFieldControl.textbox,
     this.isNullable = false,
     this.label,
     this.validatorText,
@@ -22,12 +22,12 @@ class FParas {
   });
 }
 
-enum FType {
+enum MyFieldType {
   string,
   int,
   bool,
 }
-enum FField {
+enum MyFieldControl {
   textbox,
   checkbox,
 }

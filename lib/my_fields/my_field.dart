@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:jeehbs/my_fields/f_paras.dart';
-import 'package:jeehbs/my_fields/my_checkbox.dart';
-import 'package:jeehbs/my_fields/my_text_form_field.dart';
+import 'package:jeehbs/my_fields/my_field_parameters.dart';
+import 'package:jeehbs/my_fields/controls/my_checkbox.dart';
+import 'package:jeehbs/my_fields/controls/my_text_form_field.dart';
 
 Widget myField(
-  FParas paras, {
+  MyFieldParameters paras, {
   String? helperText,
 }) {
   Widget retVal = Text(paras.label ?? paras.objKey);
-  switch (paras.field) {
-    case FField.textbox:
+  switch (paras.control) {
+    case MyFieldControl.textbox:
       retVal = MyTextFormField(paras, helperText: helperText);
       break;
-    case FField.checkbox:
+    case MyFieldControl.checkbox:
       retVal = MyCheckbox(paras);
       break;
   }

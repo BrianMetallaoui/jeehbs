@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:jeehbs/models/base_model.dart';
-import 'package:jeehbs/my_fields/f_paras.dart';
+import 'package:jeehbs/my_fields/my_field_parameters.dart';
 import 'package:jeehbs/my_fields/my_save.dart';
 
 class Ingredient extends BaseModel {
@@ -21,30 +21,30 @@ class Ingredient extends BaseModel {
   static String caloriesField = 'calories';
   static String servingSizeField = 'servingSize';
   static String amountField = 'amount';
-  Map<String, FParas> fields() => {
-        nameField: FParas(
-          type: FType.string,
+  Map<String, MyFieldParameters> fields() => {
+        nameField: MyFieldParameters(
+          type: MyFieldType.string,
           initValue: name,
           objKey: nameField,
-          whenSaved: (v) => name = mySave(v, FType.string),
+          whenSaved: (v) => name = mySave(v, MyFieldType.string),
         ),
-        caloriesField: FParas(
-          type: FType.int,
+        caloriesField: MyFieldParameters(
+          type: MyFieldType.int,
           objKey: caloriesField,
           initValue: calories,
-          whenSaved: (v) => calories = mySave(v, FType.int),
+          whenSaved: (v) => calories = mySave(v, MyFieldType.int),
         ),
-        servingSizeField: FParas(
-          type: FType.string,
+        servingSizeField: MyFieldParameters(
+          type: MyFieldType.string,
           objKey: servingSizeField,
           initValue: servingSize,
-          whenSaved: (v) => servingSize = mySave(v, FType.string),
+          whenSaved: (v) => servingSize = mySave(v, MyFieldType.string),
         ),
-        amountField: FParas(
-          type: FType.int,
+        amountField: MyFieldParameters(
+          type: MyFieldType.int,
           objKey: amountField,
           initValue: amount,
-          whenSaved: (v) => amount = mySave(v, FType.int),
+          whenSaved: (v) => amount = mySave(v, MyFieldType.int),
         ),
       };
 

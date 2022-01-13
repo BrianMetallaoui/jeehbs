@@ -20,7 +20,7 @@ class _FoodFormState extends State<FoodForm> {
   final _formKey = GlobalKey<FormState>();
 
   late Food model;
-  late Map<String, FParas> fields;
+  late Map<String, MyFieldParameters> fields;
   Widget f(String objKey, [String? helperText]) => myField(
         fields[objKey]!,
         helperText: helperText,

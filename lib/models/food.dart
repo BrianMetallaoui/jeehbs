@@ -43,30 +43,30 @@ class Food extends BaseModel {
   static String caloriesPerServingField = 'caloriesPerServing';
   static String totalCaloriesField = 'totalCalories';
   static String servingsField = 'servings';
-  Map<String, FParas> fields() => {
-        nameField: FParas(
-          type: FType.string,
+  Map<String, MyFieldParameters> fields() => {
+        nameField: MyFieldParameters(
+          type: MyFieldType.string,
           objKey: nameField,
           initValue: name,
-          whenSaved: (v) => name = mySave(v, FType.string),
+          whenSaved: (v) => name = mySave(v, MyFieldType.string),
         ),
-        caloriesPerServingField: FParas(
-          type: FType.int,
+        caloriesPerServingField: MyFieldParameters(
+          type: MyFieldType.int,
           objKey: caloriesPerServingField,
           initValue: caloriesPerServing,
-          whenSaved: (v) => caloriesPerServing = mySave(v, FType.int),
+          whenSaved: (v) => caloriesPerServing = mySave(v, MyFieldType.int),
         ),
-        totalCaloriesField: FParas(
-          type: FType.int,
+        totalCaloriesField: MyFieldParameters(
+          type: MyFieldType.int,
           objKey: totalCaloriesField,
           initValue: totalCalories,
-          whenSaved: (v) => totalCalories = mySave(v, FType.int),
+          whenSaved: (v) => totalCalories = mySave(v, MyFieldType.int),
         ),
-        servingsField: FParas(
-          type: FType.int,
+        servingsField: MyFieldParameters(
+          type: MyFieldType.int,
           objKey: servingsField,
           initValue: servings,
-          whenSaved: (v) => servings = mySave(v, FType.int),
+          whenSaved: (v) => servings = mySave(v, MyFieldType.int),
         ),
       };
 

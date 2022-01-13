@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jeehbs/my_fields/f_paras.dart';
+import 'package:jeehbs/my_fields/my_field_parameters.dart';
 import 'package:jeehbs/utils/checks.dart';
 
 class MyTextFormField<T> extends StatelessWidget {
@@ -8,7 +8,7 @@ class MyTextFormField<T> extends StatelessWidget {
     Key? key,
     this.helperText,
   }) : super(key: key);
-  final FParas paras;
+  final MyFieldParameters paras;
   final String? helperText;
 
   @override
@@ -28,27 +28,27 @@ class MyTextFormField<T> extends StatelessWidget {
     );
   }
 
-  String? _helperText(FParas paras) {
+  String? _helperText(MyFieldParameters paras) {
     String? retVal = helperText ?? paras.helperText;
     if (retVal == null && !paras.isNullable) retVal = '* Required';
     return retVal;
   }
 
-  TextInputType? _keyboardType(FParas paras) {
+  TextInputType? _keyboardType(MyFieldParameters paras) {
     switch (paras.type) {
-      case FType.int:
+      case MyFieldType.int:
         return TextInputType.number;
       default:
         return null;
     }
   }
 
-  String? _validator(String? value, FParas paras) {
+  String? _validator(String? value, MyFieldParameters paras) {
     String? retVal;
     if (!paras.isNullable) {
       //Can NOT be null
       switch (paras.type) {
-        case FType.int:
+        case MyFieldType.int:
           retVal = !intCheck(value)
               ? paras.validatorText ?? 'Please enter valid number'
               : null;
@@ -61,7 +61,7 @@ class MyTextFormField<T> extends StatelessWidget {
     } else if (strCheck(value)) {
       //Can be null but check if the value is correct
       switch (paras.type) {
-        case FType.int:
+        case MyFieldType.int:
           retVal = !intCheck(value)
               ? paras.validatorText ?? 'Please enter valid number or no value'
               : null;

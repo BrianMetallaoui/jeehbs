@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:jeehbs/my_fields/f_paras.dart';
+import 'package:jeehbs/my_fields/my_field_parameters.dart';
 
 class MyCheckbox extends StatefulWidget {
   const MyCheckbox(this.paras, {Key? key}) : super(key: key);
-  final FParas paras;
+  final MyFieldParameters paras;
 
   @override
   _MyCheckboxState createState() => _MyCheckboxState();

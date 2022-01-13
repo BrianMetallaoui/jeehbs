@@ -9,7 +9,7 @@ class IngredientForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, FParas> fields = ingredient.fields();
+    Map<String, MyFieldParameters> fields = ingredient.fields();
 
     Widget f(String objKey, [String? helperText]) => myField(
           fields[objKey]!,
