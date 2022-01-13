@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jeehbs/controllers/food_x.dart';
 import 'package:jeehbs/pages/food_form/food_form.dart';
-import 'package:jeehbs/repositories/food_repository.dart';
 
 import 'components/food_tile.dart';
 
