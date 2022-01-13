@@ -1,6 +1,6 @@
-import 'package:jeehbs/models/f_paras.dart';
+import 'package:jeehbs/my_fields/f_paras.dart';
 
-import 'checks.dart';
+import '../utils/checks.dart';
 
 dynamic mySave(String? newValue, FType type) {
   dynamic retVal = newValue;

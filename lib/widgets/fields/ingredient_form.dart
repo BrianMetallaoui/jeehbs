@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jeehbs/models/models.dart';
-import 'package:jeehbs/widgets/fields/my_field.dart';
+import 'package:jeehbs/my_fields/my_fields.dart';
 
 class IngredientForm extends StatelessWidget {
   const IngredientForm(this.ingredient, {Key? key}) : super(key: key);

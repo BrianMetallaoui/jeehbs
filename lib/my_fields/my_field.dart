@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jeehbs/models/f_paras.dart';
-import 'package:jeehbs/widgets/fields/my_checkbox.dart';
-import 'package:jeehbs/widgets/fields/my_text_form_field.dart';
+import 'package:jeehbs/my_fields/f_paras.dart';
+import 'package:jeehbs/my_fields/my_checkbox.dart';
+import 'package:jeehbs/my_fields/my_text_form_field.dart';
 
 Widget myField(
   FParas paras, {

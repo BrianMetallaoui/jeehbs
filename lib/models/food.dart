@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:jeehbs/models/models.dart';
-import 'package:jeehbs/utils/my_save.dart';
+import 'package:jeehbs/my_fields/my_fields.dart';
 
 class Food extends BaseModel {
   int? caloriesPerServing;
