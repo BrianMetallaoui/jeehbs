@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jeehbs/models/models.dart';
-import 'package:jeehbs/my_fields/my_fields.dart';
+import 'package:jeehbs/utils/utils.dart';
 import 'package:jeehbs/widgets/widgets.dart';
 
 class IngredientForm extends StatelessWidget {

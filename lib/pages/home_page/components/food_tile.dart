@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jeehbs/controllers/food_x.dart';
+import 'package:jeehbs/constants/constants.dart';
+import 'package:jeehbs/controllers/controllers.dart';
 import 'package:jeehbs/models/models.dart';
-import 'package:jeehbs/pages/food_form/food_form.dart';
 
 class FoodTile extends StatelessWidget {
   const FoodTile(this.food, {Key? key}) : super(key: key);
@@ -14,7 +14,10 @@ class FoodTile extends StatelessWidget {
       title: Text((food.name ?? '???')),
       subtitle: Text(food.servings.toString()),
       trailing: Text(food.caloriesPerServing.toString()),
-      onTap: () => Get.to(() => FoodForm(food: food)),
+      onTap: () => Get.toNamed(
+        RoutePath.foodForm,
+        arguments: {Argument.food: food},
+      ),
       onLongPress: () => Get.find<FoodX>().deleteItem(food),
     );
   }

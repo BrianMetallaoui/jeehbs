@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:jeehbs/controllers/food_x.dart';
-import 'package:jeehbs/pages/home_page/home_page.dart';
-import 'package:jeehbs/repositories/food_repository.dart';
-
-import 'utils/utils.dart';
+import 'package:jeehbs/controllers/controllers.dart';
+import 'package:jeehbs/data/data.dart';
+import 'package:jeehbs/utils/utils.dart';
 
 void main() async {
   await GetStorage.init();
@@ -37,7 +35,7 @@ class MyApp extends StatelessWidget {
         ).copyWith(secondary: accentColor),
         bottomAppBarColor: primaryColor,
       ),
-      home: const HomePage(),
+      getPages: getPages,
     );
   }
 }

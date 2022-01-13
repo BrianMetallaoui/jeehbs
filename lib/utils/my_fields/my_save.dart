@@ -1,6 +1,4 @@
-import 'package:jeehbs/my_fields/my_field_parameters.dart';
-
-import '../utils/checks.dart';
+import 'package:jeehbs/utils/utils.dart';
 
 dynamic mySave(String? newValue, MyFieldType type) {
   dynamic retVal = newValue;
