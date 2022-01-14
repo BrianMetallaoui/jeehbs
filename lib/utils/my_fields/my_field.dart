@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:jeehbs/utils/utils.dart';
 
-Widget myField(MyFieldParameters paras, {String? helperText}) {
+Widget myField(MyFieldParameters paras) {
   Widget retVal = Text(paras.label ?? paras.objKey);
   switch (paras.control) {
     case MyFieldControl.textbox:
-      retVal = MyTextFormField(paras, helperText: helperText);
+      retVal = MyTextFormField(paras);
       break;
     case MyFieldControl.checkbox:
       retVal = MyCheckbox(paras);

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class MyFieldParameters {
   MyFieldType type;
   MyFieldControl control;
@@ -8,6 +10,8 @@ class MyFieldParameters {
   String? helperText;
   dynamic initValue;
   Function whenSaved;
+  Function(String)? onFieldSubmitted;
+  Widget? suffixIcon;
 
   MyFieldParameters({
     required this.type,
@@ -19,6 +23,8 @@ class MyFieldParameters {
     this.label,
     this.validatorText,
     this.helperText,
+    this.onFieldSubmitted,
+    this.suffixIcon,
   });
 }
 

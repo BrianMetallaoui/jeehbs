@@ -7,8 +7,6 @@ import 'package:jeehbs/models/models.dart';
 import 'package:jeehbs/utils/utils.dart';
 import 'package:jeehbs/widgets/widgets.dart';
 
-import './components/ingredient_form.dart';
-
 class FoodForm extends StatefulWidget {
   const FoodForm({Key? key}) : super(key: key);
 
@@ -50,18 +48,26 @@ class _FoodFormState extends State<FoodForm> {
                     foods,
                     (Food s) => setState(() => refresh(s.clone())),
                   ),
-                  f(Food.nameField),
+                  myField(fields[Food.nameField]!),
                   ExpandedRow(
                     children: [
-                      f(Food.totalCaloriesField),
-                      f(Food.servingsField),
+                      myField(fields[Food.totalCaloriesField]!),
+                      myField(
+                        (fields[Food.servingsField]!)
+                          ..suffixIcon = IconButton(
+                            icon: const Icon(Icons.refresh),
+                            onPressed: cpsFresh,
+                          )
+                          ..onFieldSubmitted = (_) => cpsFresh(),
+                      ),
                     ],
                   ),
                   ExpandedRow(
                     children: [
-                      f(
-                        Food.caloriesPerServingField,
-                        model.calucateTotalCalories.toString(),
+                      myField(
+                        (fields[Food.caloriesPerServingField]!)
+                          ..helperText = cps
+                          ..onFieldSubmitted = (v) => _save(),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -76,9 +82,20 @@ class _FoodFormState extends State<FoodForm> {
                   ),
                   Column(
                     children: [
-                      ...model.ingredients
-                          .map((e) => IngredientForm(e))
-                          .toList(),
+                      ...model.ingredients.map((e) {
+                        Map<String, MyFieldParameters> fields = e.fields();
+                        return ExpandedRow(
+                          children: [
+                            myField(fields[Ingredient.nameField]!),
+                            myField(fields[Ingredient.caloriesField]!),
+                            myField(fields[Ingredient.amountField]!),
+                            myField(
+                              (fields[Ingredient.servingSizeField]!)
+                                ..onFieldSubmitted = (_) => cpsFresh(),
+                            ),
+                          ],
+                        );
+                      }).toList(),
                       IconButton(
                         onPressed: () {
                           _formKey.currentState!.save();
@@ -104,17 +121,12 @@ class _FoodFormState extends State<FoodForm> {
     );
   }
 
-  Widget f(String objKey, [String? helperText]) => myField(
-        fields[objKey]!,
-        helperText: helperText,
-      );
-
   void refresh(Food? f) {
     model = (f != null) ? f : Food(ingredients: []);
     fields = model.fields();
   }
 
-  String get cps => 'Calories Per Serving: ${model.caloriesPerServing ?? ''}';
+  String get cps => 'Normal amount: ${model.calucateTotalCalories}';
 
   void cpsFresh() {
     if (_formKey.currentState!.validate()) {

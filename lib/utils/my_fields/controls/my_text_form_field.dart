@@ -2,13 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:jeehbs/utils/utils.dart';
 
 class MyTextFormField extends StatelessWidget {
-  const MyTextFormField(
-    this.paras, {
-    Key? key,
-    this.helperText,
-  }) : super(key: key);
+  const MyTextFormField(this.paras, {Key? key}) : super(key: key);
   final MyFieldParameters paras;
-  final String? helperText;
 
   @override
   Widget build(BuildContext context) {
@@ -18,16 +13,20 @@ class MyTextFormField extends StatelessWidget {
       validator: (v) => _validator(v, paras),
       keyboardType: _keyboardType(paras),
       autovalidateMode: AutovalidateMode.onUserInteraction,
+      textInputAction:
+          (paras.onFieldSubmitted == null) ? TextInputAction.next : null,
+      onFieldSubmitted: paras.onFieldSubmitted,
       decoration: InputDecoration(
         label: Text(paras.label ?? propertyToName(paras.objKey)),
         helperText: _helperText(paras),
+        suffixIcon: paras.suffixIcon,
       ),
       onSaved: (v) => paras.whenSaved(v),
     );
   }
 
   String? _helperText(MyFieldParameters paras) {
-    String? retVal = helperText ?? paras.helperText;
+    String? retVal = paras.helperText;
     if (retVal == null && !paras.isNullable) retVal = '* Required';
     return retVal;
   }
