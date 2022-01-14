@@ -22,9 +22,15 @@ class HomePage extends StatelessWidget {
               ),
             ),
           ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
           floatingActionButton: FloatingActionButton(
             onPressed: () => Get.toNamed(RoutePath.foodForm),
             child: const Icon(Icons.add),
+          ),
+          bottomNavigationBar: const BottomAppBar(
+            shape: CircularNotchedRectangle(),
+            notchMargin: 12,
+            child: SizedBox(height: 50),
           ),
         );
       },
