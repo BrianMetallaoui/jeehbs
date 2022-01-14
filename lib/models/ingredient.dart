@@ -37,6 +37,7 @@ class Ingredient extends BaseModel {
           type: MyFieldType.string,
           objKey: servingSizeField,
           initValue: servingSize,
+          isNullable: true,
           whenSaved: (v) => servingSize = mySave(v, MyFieldType.string),
         ),
         amountField: MyFieldParameters(

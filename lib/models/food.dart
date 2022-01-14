@@ -7,7 +7,7 @@ class Food extends BaseModel {
   int? caloriesPerServing;
   int? totalCalories;
   int? servings;
-  List<Ingredient> ingredients = [];
+  List<Ingredient> ingredients = [Ingredient()];
 
   Food({
     String? id,
@@ -15,8 +15,10 @@ class Food extends BaseModel {
     this.caloriesPerServing,
     this.totalCalories,
     this.servings,
-    required this.ingredients,
-  }) : super(name, id);
+    List<Ingredient>? ingredients,
+  }) : super(name, id) {
+    this.ingredients = (ingredients != null) ? ingredients : [Ingredient()];
+  }
 
   int get calucateTotalCalories {
     if (ingredients.isNotEmpty) {
@@ -96,7 +98,8 @@ class Food extends BaseModel {
       servings: map['servings']?.toInt() ?? 0,
       ingredients: map['ingredients'] != null
           ? List<Ingredient>.from(
-              map['ingredients']?.map((x) => Ingredient.fromMap(x)))
+              map['ingredients']?.map((x) => Ingredient.fromMap(x)),
+            )
           : [],
     );
   }

@@ -9,6 +9,7 @@ class MyTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       key: UniqueKey(),
+      autofocus: paras.autoFocus,
       initialValue: (paras.initValue ?? '').toString(),
       validator: (v) => _validator(v, paras),
       keyboardType: _keyboardType(paras),

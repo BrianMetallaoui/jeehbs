@@ -36,87 +36,86 @@ class _FoodFormState extends State<FoodForm> {
       appBar: AppBar(
         title: Text((editing) ? 'Edit ${model.name}' : 'Add Food'),
       ),
-      body: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              MyAutocomplete<Food>(
-                foods,
-                (Food s) => setState(() => refresh(s.clone())),
-              ),
-              myField(fields[Food.nameField]!),
-              ExpandedRow(
-                children: [
-                  myField(
-                    (fields[Food.caloriesPerServingField]!)
-                      ..helperText = cps
-                      ..onFieldSubmitted = (v) => _save(),
-                  ),
-                  myField(fields[Food.totalCaloriesField]!),
-                  myField(
-                    (fields[Food.servingsField]!)
-                      ..suffixIcon = IconButton(
-                        icon: const Icon(Icons.refresh),
-                        onPressed: cpsFresh,
-                      )
-                      ..onFieldSubmitted = (_) => cpsFresh(),
-                  ),
-                ],
-              ),
-              ExpandedRow(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        onPressed: cpsFresh,
-                        child: const Text('Calc'),
-                      )
-                    ],
-                  )
-                ],
-              ),
-              ...model.ingredients.map((e) {
-                Map<String, MyFieldParameters> fields = e.fields();
-                return ExpandedRow(
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
                   children: [
-                    myField(fields[Ingredient.nameField]!),
-                    myField(fields[Ingredient.caloriesField]!),
-                    myField(fields[Ingredient.amountField]!),
-                    myField(
-                      (fields[Ingredient.servingSizeField]!)
-                        ..onFieldSubmitted = (_) => cpsFresh(),
+                    myField(fields[Food.nameField]!),
+                    ExpandedRow(
+                      children: [
+                        myField(
+                          (fields[Food.caloriesPerServingField]!)
+                            ..helperText = cps
+                            ..onFieldSubmitted = (v) => _save(),
+                        ),
+                        myField(fields[Food.totalCaloriesField]!),
+                        myField(
+                          (fields[Food.servingsField]!)
+                            ..suffixIcon = IconButton(
+                              icon: const Icon(Icons.refresh),
+                              onPressed: cpsFresh,
+                            )
+                            ..onFieldSubmitted = (_) => cpsFresh(),
+                        ),
+                      ],
                     ),
+                    ...model.ingredients.map((e) {
+                      Map<String, MyFieldParameters> fields = e.fields();
+                      return ExpandedRow(
+                        children: [
+                          myField(fields[Ingredient.nameField]!),
+                          myField(fields[Ingredient.caloriesField]!),
+                          myField(fields[Ingredient.amountField]!),
+                          myField(
+                            (fields[Ingredient.servingSizeField]!)
+                              ..onFieldSubmitted = (_) => cpsFresh(),
+                          ),
+                        ],
+                      );
+                    }).toList(),
                   ],
-                );
-              }).toList(),
-              IconButton(
-                onPressed: () {
-                  _formKey.currentState!.save();
-                  setState(() {
-                    model.ingredients.add(Ingredient());
-                    refresh(model);
-                  });
-                },
-                icon: const Icon(Icons.add),
+                ),
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: _save,
         child: const Icon(Icons.save),
       ),
-      bottomNavigationBar: const BotNavBar(),
+      bottomNavigationBar: BotNavBar(
+        items: [
+          ElevatedButton(
+            onPressed: cpsFresh,
+            child: const Text('Calc'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              _formKey.currentState!.save();
+              setState(() {
+                model.ingredients.add(Ingredient());
+                refresh(model);
+              });
+            },
+            child: const Text('Add Ingredient'),
+          ),
+          ElevatedButton(
+            onPressed: () => Get.bottomSheet(Container()),
+            child: const Text('Search'),
+          ),
+        ],
+      ),
     );
   }
 
   void refresh(Food? f) {
-    model = (f != null) ? f : Food(ingredients: []);
+    model = (f != null) ? f : Food();
     fields = model.fields();
   }
 

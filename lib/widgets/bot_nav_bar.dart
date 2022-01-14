@@ -5,7 +5,7 @@ class BotNavBar extends StatelessWidget {
   final List<Widget>? items;
   @override
   Widget build(BuildContext context) {
-    List<Widget> widgets = items ?? [const SizedBox(height: 50)];
+    List<Widget> widgets = items ?? [];
     return BottomAppBar(
       shape: const CircularNotchedRectangle(),
       notchMargin: 12,

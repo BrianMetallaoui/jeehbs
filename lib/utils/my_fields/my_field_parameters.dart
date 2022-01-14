@@ -12,6 +12,7 @@ class MyFieldParameters {
   Function whenSaved;
   Function(String)? onFieldSubmitted;
   Widget? suffixIcon;
+  bool autoFocus;
 
   MyFieldParameters({
     required this.type,
@@ -25,6 +26,7 @@ class MyFieldParameters {
     this.helperText,
     this.onFieldSubmitted,
     this.suffixIcon,
+    this.autoFocus = false,
   });
 }
 
