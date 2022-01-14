@@ -21,11 +21,13 @@ class _FoodFormState extends State<FoodForm> {
   late Map<String, MyFieldParameters> fields;
 
   var editing = false;
+  late String thisId;
 
   @override
   void initState() {
     super.initState();
-    var input = Get.arguments?[Argument.food];
+    var input = Get.arguments?[Argument.food] as Food?;
+    thisId = input?.id ?? '';
     editing = (input != null);
     refresh(input);
   }
@@ -46,6 +48,10 @@ class _FoodFormState extends State<FoodForm> {
                   children: [
                     Column(
                       children: [
+                        MyAutocomplete<Food>(
+                          foods,
+                          (Food s) => setState(() => refresh(s.clone())),
+                        ),
                         myField(fields[Food.nameField]!),
                         ExpandedRow(
                           children: [
@@ -133,6 +139,7 @@ class _FoodFormState extends State<FoodForm> {
   void refresh(Food? f) {
     model = (f != null) ? f : Food();
     fields = model.fields();
+    if (thisId.isEmpty) thisId = model.id;
   }
 
   String get cps => 'Normal amount: ${model.calucateTotalCalories}';
@@ -150,6 +157,7 @@ class _FoodFormState extends State<FoodForm> {
   void _save() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+      model.setId(thisId);
       Get.find<FoodX>().saveItem(model);
       Get.back();
     }

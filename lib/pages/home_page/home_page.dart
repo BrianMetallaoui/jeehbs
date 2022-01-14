@@ -23,11 +23,13 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget body() => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: Get.find<FoodX>().items.map((e) => FoodTile(e)).toList(),
+  Widget body() => GetBuilder<FoodX>(
+        builder: (conX) => Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: conX.items.map((e) => FoodTile(e)).toList(),
+            ),
           ),
         ),
       );

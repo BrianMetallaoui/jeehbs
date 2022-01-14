@@ -14,8 +14,12 @@ class BaseModel {
 
   String get id => _id;
 
-  newId() {
+  void newId() {
     _id = const Uuid().v4();
+  }
+
+  void setId(String newId) {
+    _id = newId;
   }
 
   bool isEqual(BaseModel? model) {
