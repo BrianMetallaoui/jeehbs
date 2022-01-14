@@ -55,6 +55,7 @@ class Food extends BaseModel {
           objKey: caloriesPerServingField,
           initValue: caloriesPerServing,
           whenSaved: (v) => caloriesPerServing = mySave(v, MyFieldType.int),
+          label: 'CpS',
         ),
         totalCaloriesField: MyFieldParameters(
           type: MyFieldType.int,

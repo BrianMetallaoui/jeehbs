@@ -23,6 +23,7 @@ class MyAutocomplete<T extends BaseModel> extends StatelessWidget {
             focusNode: focusNode,
             controller: textEditingController,
             onFieldSubmitted: (String value) => onFieldSubmitted(),
+            autofocus: true,
           ),
         );
       },
