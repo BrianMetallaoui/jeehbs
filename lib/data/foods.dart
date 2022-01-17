@@ -10,7 +10,6 @@ List<Food> foods = [
       Ingredient(
         calories: 300,
         name: 'Love',
-        servingSize: 'Test',
         amount: 2,
       )
     ],
@@ -24,7 +23,6 @@ List<Food> foods = [
       Ingredient(
         calories: 300,
         name: 'Love',
-        servingSize: 'Test',
         amount: 2,
       )
     ],
@@ -36,9 +34,28 @@ List<Food> foods = [
     servings: 3,
     ingredients: [
       Ingredient(
-        calories: 300,
+        calories: 1,
         name: 'Love',
-        servingSize: 'Test',
+        amount: 2,
+      ),
+      Ingredient(
+        calories: 2,
+        name: 'Love',
+        amount: 2,
+      ),
+      Ingredient(
+        calories: 3,
+        name: 'Love',
+        amount: 2,
+      ),
+      Ingredient(
+        calories: 4,
+        name: 'Love',
+        amount: 2,
+      ),
+      Ingredient(
+        calories: 5,
+        name: 'Love',
         amount: 2,
       )
     ],
@@ -52,7 +69,188 @@ List<Food> foods = [
       Ingredient(
         calories: 300,
         name: 'Love',
-        servingSize: 'Test',
+        amount: 2,
+      )
+    ],
+  ),
+  Food(
+    name: 'Rice',
+    caloriesPerServing: 500,
+    totalCalories: 2000,
+    servings: 2,
+    ingredients: [
+      Ingredient(
+        calories: 300,
+        name: 'Love',
+        amount: 2,
+      )
+    ],
+  ),
+  Food(
+    name: 'Rice',
+    caloriesPerServing: 500,
+    totalCalories: 2000,
+    servings: 2,
+    ingredients: [
+      Ingredient(
+        calories: 300,
+        name: 'Love',
+        amount: 2,
+      )
+    ],
+  ),
+  Food(
+    name: 'Rice',
+    caloriesPerServing: 500,
+    totalCalories: 2000,
+    servings: 2,
+    ingredients: [
+      Ingredient(
+        calories: 300,
+        name: 'Love',
+        amount: 2,
+      )
+    ],
+  ),
+  Food(
+    name: 'Rice',
+    caloriesPerServing: 500,
+    totalCalories: 2000,
+    servings: 2,
+    ingredients: [
+      Ingredient(
+        calories: 300,
+        name: 'Love',
+        amount: 2,
+      )
+    ],
+  ),
+  Food(
+    name: 'Rice',
+    caloriesPerServing: 500,
+    totalCalories: 2000,
+    servings: 2,
+    ingredients: [
+      Ingredient(
+        calories: 300,
+        name: 'Love',
+        amount: 2,
+      )
+    ],
+  ),
+  Food(
+    name: 'Rice',
+    caloriesPerServing: 500,
+    totalCalories: 2000,
+    servings: 2,
+    ingredients: [
+      Ingredient(
+        calories: 300,
+        name: 'Love',
+        amount: 2,
+      )
+    ],
+  ),
+  Food(
+    name: 'Rice',
+    caloriesPerServing: 500,
+    totalCalories: 2000,
+    servings: 2,
+    ingredients: [
+      Ingredient(
+        calories: 300,
+        name: 'Love',
+        amount: 2,
+      )
+    ],
+  ),
+  Food(
+    name: 'Rice',
+    caloriesPerServing: 500,
+    totalCalories: 2000,
+    servings: 2,
+    ingredients: [
+      Ingredient(
+        calories: 300,
+        name: 'Love',
+        amount: 2,
+      )
+    ],
+  ),
+  Food(
+    name: 'Rice',
+    caloriesPerServing: 500,
+    totalCalories: 2000,
+    servings: 2,
+    ingredients: [
+      Ingredient(
+        calories: 300,
+        name: 'Love',
+        amount: 2,
+      )
+    ],
+  ),
+  Food(
+    name: 'Rice',
+    caloriesPerServing: 500,
+    totalCalories: 2000,
+    servings: 2,
+    ingredients: [
+      Ingredient(
+        calories: 300,
+        name: 'Love',
+        amount: 2,
+      )
+    ],
+  ),
+  Food(
+    name: 'Rice',
+    caloriesPerServing: 500,
+    totalCalories: 2000,
+    servings: 2,
+    ingredients: [
+      Ingredient(
+        calories: 300,
+        name: 'Love',
+        amount: 2,
+      )
+    ],
+  ),
+  Food(
+    name: 'Rice',
+    caloriesPerServing: 500,
+    totalCalories: 2000,
+    servings: 2,
+    ingredients: [
+      Ingredient(
+        calories: 300,
+        name: 'Love',
+        amount: 2,
+      )
+    ],
+  ),
+  Food(
+    name: 'Rice',
+    caloriesPerServing: 500,
+    totalCalories: 2000,
+    servings: 2,
+    ingredients: [
+      Ingredient(
+        calories: 300,
+        name: 'Love',
+        amount: 2,
+      )
+    ],
+  ),
+  Food(
+    name: 'Rice',
+    caloriesPerServing: 500,
+    totalCalories: 2000,
+    servings: 2,
+    ingredients: [
+      Ingredient(
+        calories: 300,
+        name: 'Love',
         amount: 2,
       )
     ],

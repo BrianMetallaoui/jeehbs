@@ -1,77 +1,39 @@
 import 'dart:convert';
 
 import 'package:jeehbs/models/models.dart';
-import 'package:jeehbs/utils/utils.dart';
 
 class Food extends BaseModel {
   int? caloriesPerServing;
-  int? totalCalories;
-  int? servings;
-  List<Ingredient> ingredients = [Ingredient()];
+  int totalCalories;
+  int servings;
+  List<Ingredient> ingredients = [];
+  String recipe;
 
   Food({
     String? id,
     String name = '',
     this.caloriesPerServing,
-    this.totalCalories,
-    this.servings,
+    this.totalCalories = 0,
+    this.servings = 1,
+    this.recipe = '',
     List<Ingredient>? ingredients,
   }) : super(name, id) {
     this.ingredients = (ingredients != null) ? ingredients : [Ingredient()];
   }
 
-  int get calucateTotalCalories {
+  int get calucateCalories {
     if (ingredients.isNotEmpty) {
       totalCalories = ingredients.fold(
         0,
-        (prev, element) =>
-            (prev ?? 0) + ((element.calories ?? 0) * element.amount),
+        (prev, element) => (prev) + ((element.calories ?? 0) * element.amount),
       );
     }
-    return calucateCaloriesPerServing() ?? 0;
-  }
-
-  int? calucateCaloriesPerServing() {
-    return ((servings ?? 0) > 0)
-        ? ((totalCalories ?? 0) / (servings ?? 1)).floor()
-        : totalCalories;
+    return (servings > 0) ? (totalCalories / servings).floor() : totalCalories;
   }
 
   void setCaloriesPerServing() {
-    caloriesPerServing = calucateTotalCalories;
+    caloriesPerServing = calucateCalories;
   }
-
-  static String nameField = 'name';
-  static String caloriesPerServingField = 'caloriesPerServing';
-  static String totalCaloriesField = 'totalCalories';
-  static String servingsField = 'servings';
-  Map<String, MyFieldParameters> fields() => {
-        nameField: MyFieldParameters(
-          type: MyFieldType.string,
-          objKey: nameField,
-          initValue: name,
-          whenSaved: (v) => name = mySave(v, MyFieldType.string),
-        ),
-        caloriesPerServingField: MyFieldParameters(
-          type: MyFieldType.int,
-          objKey: caloriesPerServingField,
-          initValue: caloriesPerServing,
-          whenSaved: (v) => caloriesPerServing = mySave(v, MyFieldType.int),
-          label: 'CpS',
-        ),
-        totalCaloriesField: MyFieldParameters(
-          type: MyFieldType.int,
-          objKey: totalCaloriesField,
-          initValue: totalCalories,
-          whenSaved: (v) => totalCalories = mySave(v, MyFieldType.int),
-        ),
-        servingsField: MyFieldParameters(
-          type: MyFieldType.int,
-          objKey: servingsField,
-          initValue: servings,
-          whenSaved: (v) => servings = mySave(v, MyFieldType.int),
-        ),
-      };
 
   @override
   Map<String, dynamic> toMap() {
@@ -81,6 +43,7 @@ class Food extends BaseModel {
       'totalCalories': totalCalories,
       'servings': servings,
       'ingredients': ingredients.map((x) => x.toMap()).toList(),
+      'recipe': recipe,
     };
   }
 
@@ -101,6 +64,7 @@ class Food extends BaseModel {
               map['ingredients']?.map((x) => Ingredient.fromMap(x)),
             )
           : [],
+      recipe: map['recipe'] ?? '',
     );
   }
 
