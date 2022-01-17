@@ -92,39 +92,25 @@ class _FoodFormState extends State<FoodForm> {
           ),
         ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        onPressed: _save,
-        child: const Icon(Icons.save),
-      ),
       bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const BotNavItem(),
             BotNavItem(
-              onClick: cpsFresh,
-              icon: Icons.calculate,
-              label: 'Calc',
-            ),
-            const BotNavItem(label: 'Save'),
-            BotNavItem(
-              onClick: () {
-                _formKey.currentState!.save();
-                setState(() {
-                  model.ingredients.add(Ingredient());
-                  refresh(model);
-                });
-              },
-              icon: Icons.add,
-              label: 'Add Ingredient',
+              onClick: () => Get.back(),
+              icon: Icons.cancel,
+              label: 'Cancel',
             ),
             BotNavItem(
               onClick: () => Get.bottomSheet(Container()),
               icon: Icons.search,
               label: 'Search',
+            ),
+            BotNavItem(
+              onClick: _save,
+              icon: Icons.save,
+              label: 'Save',
             ),
           ],
         ),

@@ -23,7 +23,16 @@ class BotNavItem extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[Icon(icon), Text(label)],
+              children: <Widget>[
+                Icon(
+                  icon,
+                  color: Theme.of(context).primaryIconTheme.color,
+                ),
+                Text(
+                  label,
+                  style: Theme.of(context).primaryTextTheme.bodyText1,
+                )
+              ],
             ),
           ),
         ),
