@@ -8,27 +8,19 @@ class BaseXController<T extends BaseModel> extends GetxController {
 
   BaseXController(this.repository) {
     loadItems();
+    repository.listen(loadItems);
   }
 
   void loadItems() {
-    items = repository.loadItems();
+    items = repository.loadAllItems();
     update();
   }
 
   void saveItem(T item) {
-    var x = items.indexWhere((i) => i.id == item.id);
-    if (x > -1) {
-      items[x] = item;
-    } else {
-      items.add(item);
-    }
-    repository.saveListToDisk(items);
-    update();
+    repository.saveItem(item);
   }
 
   void deleteItem(T item) {
-    items.remove(item);
-    repository.saveListToDisk(items);
-    update();
+    repository.removeItem(item);
   }
 }

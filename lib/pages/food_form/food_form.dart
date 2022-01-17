@@ -48,10 +48,6 @@ class _FoodFormState extends State<FoodForm> {
                   children: [
                     Column(
                       children: [
-                        MyAutocomplete<Food>(
-                          foods,
-                          (Food s) => setState(() => refresh(s.clone())),
-                        ),
                         myField(fields[Food.nameField]!),
                         ExpandedRow(
                           children: [

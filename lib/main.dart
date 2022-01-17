@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:jeehbs/constants/constants.dart';
 import 'package:jeehbs/controllers/controllers.dart';
 import 'package:jeehbs/data/data.dart';
 import 'package:jeehbs/utils/utils.dart';
 
 void main() async {
-  await GetStorage.init();
+  await GetStorage.init(BoxId.foods);
   Get.put(FoodRepository());
   Get.put(FoodX(Get.find<FoodRepository>()));
+
   runApp(const MyApp());
 }
 
