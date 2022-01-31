@@ -18,12 +18,9 @@ class _FoodFormState extends State<FoodForm> {
   final _formKey = GlobalKey<FormState>();
 
   late Food model;
-  Ingredient editingIngredient = Ingredient();
 
   var editing = false;
   late String thisId;
-  late FocusNode searchFocusNode;
-  late TextEditingController searchTextEditingController;
 
   @override
   void initState() {
@@ -43,196 +40,66 @@ class _FoodFormState extends State<FoodForm> {
         appBar: AppBar(
           title: Text((editing) ? 'Edit ${model.name}' : 'Add Food'),
           bottom: const TabBar(
-            tabs: [Text('Info'), Text('Recipe')],
-            indicatorColor: Colors.white,
-            labelPadding: EdgeInsets.all(12.0),
+            tabs: [Tab(child: Text('General')), Tab(child: Text('Recipe'))],
           ),
         ),
         body: Form(
           key: _formKey,
           child: TabBarView(
             children: [
-              Column(
-                children: [
-                  Expanded(
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 16,
+                  ),
+                  child: SingleChildScrollView(
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text('Ingredients'),
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: ingredientGrid(model.ingredients),
-                          ),
-                        )
+                        ExpandedRow(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextFormField(
+                                key: UniqueKey(),
+                                initialValue: model.name,
+                                textInputAction: TextInputAction.next,
+                                decoration: const InputDecoration(
+                                  label: Text('Name'),
+                                ),
+                                onSaved: (v) =>
+                                    model.name = mySave(v, MyFieldType.string),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextFormField(
+                                key: UniqueKey(),
+                                initialValue: (model.servings).toString(),
+                                keyboardType: TextInputType.number,
+                                decoration: const InputDecoration(
+                                  label: Text('Servings'),
+                                ),
+                                onFieldSubmitted: (v) {
+                                  model.servings = int.tryParse(v) ?? 1;
+                                  cpsFresh();
+                                },
+                                onSaved: (v) =>
+                                    model.servings = int.tryParse(v ?? '') ?? 1,
+                              ),
+                            ),
+                          ],
+                        ),
+                        IngredientsForm(
+                          food: model,
+                          formKey: _formKey,
+                          onChange: cpsFresh,
+                        ),
                       ],
                     ),
                   ),
-                  Autocomplete<Food>(
-                    fieldViewBuilder: (
-                      context,
-                      textEditingController,
-                      focusNode,
-                      onFieldSubmitted,
-                    ) {
-                      searchFocusNode = focusNode;
-                      searchTextEditingController = textEditingController;
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          key: UniqueKey(),
-                          decoration:
-                              const InputDecoration(label: Text('Search')),
-                          focusNode: focusNode,
-                          controller: textEditingController,
-                          onFieldSubmitted: (String value) =>
-                              onFieldSubmitted(),
-                        ),
-                      );
-                    },
-                    optionsBuilder: (TextEditingValue textEditingValue) {
-                      if (textEditingValue.text == '') {
-                        return [];
-                      }
-                      return foods.where(
-                        (Food option) => (option.name)
-                            .toLowerCase()
-                            .contains(textEditingValue.text.toLowerCase()),
-                      );
-                    },
-                    onSelected: (Food s) => setState(() {
-                      refresh(s.clone());
-                      searchTextEditingController.clear();
-                    }),
-                    displayStringForOption: (option) => option.name,
-                  ),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          const Text('General'),
-                          ExpandedRow(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: TextFormField(
-                                  key: UniqueKey(),
-                                  initialValue: model.name,
-                                  textInputAction: TextInputAction.next,
-                                  decoration: const InputDecoration(
-                                    label: Text('Name'),
-                                  ),
-                                  onSaved: (v) => model.name =
-                                      mySave(v, MyFieldType.string),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Center(
-                                  child: Card(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text('${model.calucateCalories}'),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: TextFormField(
-                                    key: UniqueKey(),
-                                    initialValue: (model.servings).toString(),
-                                    keyboardType: TextInputType.number,
-                                    decoration: const InputDecoration(
-                                      label: Text('Servings'),
-                                    ),
-                                    onFieldSubmitted: (v) {
-                                      model.servings = int.tryParse(v) ?? 1;
-                                      cpsFresh();
-                                    },
-                                    onSaved: (v) => model.servings =
-                                        int.tryParse(v ?? '') ?? 1,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: TextFormField(
-                                    key: UniqueKey(),
-                                    initialValue: editingIngredient.name,
-                                    textInputAction: TextInputAction.next,
-                                    decoration: const InputDecoration(
-                                      label: Text('Name'),
-                                    ),
-                                    onSaved: (v) => editingIngredient.name =
-                                        mySave(v, MyFieldType.string),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: TextFormField(
-                                    key: UniqueKey(),
-                                    initialValue:
-                                        (editingIngredient.amount).toString(),
-                                    textInputAction: TextInputAction.next,
-                                    keyboardType: TextInputType.number,
-                                    decoration: const InputDecoration(
-                                      label: Text('Amount'),
-                                    ),
-                                    onSaved: (v) => editingIngredient.amount =
-                                        int.tryParse(v ?? '') ?? 0,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: TextFormField(
-                                    key: UniqueKey(),
-                                    initialValue:
-                                        (editingIngredient.calories ?? '')
-                                            .toString(),
-                                    keyboardType: TextInputType.number,
-                                    decoration: const InputDecoration(
-                                      label: Text('Calories'),
-                                    ),
-                                    onSaved: (v) => editingIngredient.calories =
-                                        int.tryParse(v ?? '') ?? 0,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Center(
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      _formKey.currentState!.save();
-
-                                      model.ingredients.add(editingIngredient);
-                                      editingIngredient = Ingredient();
-                                      setState(() {
-                                        refresh(model);
-                                      });
-                                    },
-                                    child: const Text('Add'),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
               Column(
                 children: [
@@ -258,26 +125,26 @@ class _FoodFormState extends State<FoodForm> {
             ],
           ),
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        floatingActionButton: FloatingActionButton(
+          onPressed: _save,
+          child: const Icon(Icons.save),
+        ),
         bottomNavigationBar: BottomAppBar(
+          shape: const CircularNotchedRectangle(),
           child: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               BotNavItem(
-                onClick: () => Get.back(),
-                icon: Icons.cancel,
-                label: 'Cancel',
+                label: '${model.calucateCalories}',
               ),
               BotNavItem(
-                onClick: () => searchFocusNode.requestFocus(),
+                onClick: showSearch,
                 icon: Icons.search,
                 label: 'Search',
               ),
-              BotNavItem(
-                onClick: _save,
-                icon: Icons.save,
-                label: 'Save',
-              ),
+              const BotNavItem(label: ''),
             ],
           ),
         ),
@@ -309,64 +176,223 @@ class _FoodFormState extends State<FoodForm> {
     }
   }
 
-  Widget iCard(Ingredient i) {
-    return SizedBox(
-      child: GestureDetector(
-        onTap: () {
-          _formKey.currentState!.save();
-          setState(() {
-            editingIngredient = i;
-          });
-        },
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      i.name,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const Spacer(),
-                    Text(
-                      (i.amount * (i.calories ?? 0)).toString(),
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Text(
-                  'Cal: ${i.calories}   Amt: ${i.amount}',
-                  style: const TextStyle(fontSize: 12),
-                )
-              ],
-            ),
-          ),
+  void showSearch() {
+    Get.dialog(
+      AlertDialog(
+        content: Autocomplete<Food>(
+          fieldViewBuilder: (
+            context,
+            textEditingController,
+            focusNode,
+            onFieldSubmitted,
+          ) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                key: UniqueKey(),
+                autofocus: true,
+                decoration: const InputDecoration(label: Text('Search')),
+                focusNode: focusNode,
+                controller: textEditingController,
+                onFieldSubmitted: (String value) => onFieldSubmitted(),
+              ),
+            );
+          },
+          optionsBuilder: (TextEditingValue textEditingValue) {
+            if (textEditingValue.text == '') {
+              return [];
+            }
+            return foods.where(
+              (Food option) => (option.name)
+                  .toLowerCase()
+                  .contains(textEditingValue.text.toLowerCase()),
+            );
+          },
+          onSelected: (Food s) => setState(() {
+            refresh(s.clone());
+            Get.back();
+          }),
+          displayStringForOption: (option) => option.name,
         ),
       ),
     );
   }
+}
 
-  Widget ingredientGrid(List<Ingredient> ingredients) {
-    List<List<Widget>> rows = [[]];
-    var length = 3;
+class IngredientsForm extends StatefulWidget {
+  const IngredientsForm({
+    Key? key,
+    required this.food,
+    required this.formKey,
+    required this.onChange,
+  }) : super(key: key);
 
-    for (var i in ingredients) {
-      if (rows.last.length == length) {
-        rows.add([]);
-      }
-      rows.last.add(iCard(i));
-    }
-    while (rows.last.length < length) {
-      rows.last.add(Container());
-    }
+  final Food food;
+  final GlobalKey<FormState> formKey;
+  final Function() onChange;
 
+  @override
+  State<IngredientsForm> createState() => _IngredientsFormState();
+}
+
+class _IngredientsFormState extends State<IngredientsForm> {
+  @override
+  Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: rows.map((e) => ExpandedRow(children: e)).toList(),
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Ingredients (${widget.food.ingredients.length})'),
+            IconButton(
+              onPressed: () async {
+                var ing = await showIngredient();
+                if (ing != null) {
+                  widget.formKey.currentState!.save();
+
+                  setState(() {
+                    var existing = widget.food.ingredients
+                        .indexWhere((c) => c.id == ing.id);
+                    if (existing != -1) {
+                      widget.food.ingredients[existing] = ing;
+                    } else {
+                      widget.food.ingredients.add(ing);
+                    }
+                  });
+                  widget.onChange();
+                }
+              },
+              icon: const Icon(Icons.add),
+            ),
+          ],
+        ),
+        ...widget.food.ingredients
+            .map(
+              (i) => ListTile(
+                leading: Text(
+                  (i.amount * (i.calories ?? 0)).toString(),
+                ),
+                title: Text(
+                  i.name,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                subtitle: Text(
+                  'Cal: ${i.calories}   Amt: ${i.amount}',
+                ),
+                trailing: IconButton(
+                  onPressed: () => setState(() {
+                    widget.formKey.currentState!.save();
+                    widget.food.ingredients.remove(i);
+                  }),
+                  icon: const Icon(
+                    Icons.remove,
+                    color: Colors.red,
+                  ),
+                ),
+                onTap: () async {
+                  var ing = await showIngredient(i);
+                  if (ing != null) {
+                    widget.formKey.currentState!.save();
+
+                    setState(() {
+                      var existing = widget.food.ingredients
+                          .indexWhere((c) => c.id == ing.id);
+                      if (existing != -1) {
+                        widget.food.ingredients[existing] = ing;
+                      } else {
+                        widget.food.ingredients.add(ing);
+                      }
+                    });
+                    widget.onChange();
+                  }
+                },
+              ),
+            )
+            .toList()
+      ],
+    );
+  }
+
+  Future<Ingredient?> showIngredient([Ingredient? ingredient]) {
+    final _formKey = GlobalKey<FormState>();
+    var i = (ingredient != null) ? ingredient : Ingredient();
+    return Get.dialog<Ingredient>(
+      AlertDialog(
+        content: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        key: UniqueKey(),
+                        initialValue: i.name,
+                        autofocus: true,
+                        textInputAction: TextInputAction.next,
+                        decoration: const InputDecoration(
+                          label: Text('Name'),
+                        ),
+                        onSaved: (v) => i.name = mySave(v, MyFieldType.string),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        key: UniqueKey(),
+                        initialValue: (i.amount).toString(),
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          label: Text('Amount'),
+                        ),
+                        onSaved: (v) => i.amount = int.tryParse(v ?? '') ?? 0,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        key: UniqueKey(),
+                        initialValue: (i.calories ?? '').toString(),
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          label: Text('Calories'),
+                        ),
+                        onSaved: (v) => i.calories = int.tryParse(v ?? '') ?? 0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _formKey.currentState!.save();
+                        Get.back(result: i);
+                      },
+                      child: const Text('Save'),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

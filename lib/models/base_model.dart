@@ -22,10 +22,6 @@ class BaseModel {
     _id = newId;
   }
 
-  bool isEqual(BaseModel? model) {
-    return id == model?.id;
-  }
-
   factory BaseModel.fromMap(Map<String, dynamic> map) {
     return BaseModel(map['name'], map['id']);
   }
