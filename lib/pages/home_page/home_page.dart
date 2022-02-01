@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jeehbs/constants/constants.dart';
-import 'package:jeehbs/controllers/controllers.dart';
+import 'package:jeehbs/controllers/food_x.dart';
+import 'package:jeehbs/pages/food_form/food_form.dart';
 import 'package:jeehbs/widgets/widgets.dart';
 
 import 'components/food_tile.dart';
@@ -13,17 +13,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Home')),
-      body: body(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.toNamed(RoutePath.foodForm),
-        child: const Icon(Icons.add),
-      ),
-      bottomNavigationBar: const BotNavBar(),
-    );
-  }
-
-  Widget body() => GetBuilder<FoodX>(
+      body: GetBuilder<FoodX>(
         builder: (conX) => Center(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -32,5 +22,13 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ),
-      );
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Get.to(() => const FoodForm()),
+        child: const Icon(Icons.add),
+      ),
+      bottomNavigationBar: const BotNavBar(),
+    );
+  }
 }

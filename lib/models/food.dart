@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:jeehbs/models/models.dart';
+import 'base_model.dart';
+import 'ingredient.dart';
 
 class Food extends BaseModel {
   int? caloriesPerServing;
@@ -18,7 +19,7 @@ class Food extends BaseModel {
     this.recipe = '',
     List<Ingredient>? ingredients,
   }) : super(name, id) {
-    this.ingredients = (ingredients != null) ? ingredients : [Ingredient()];
+    this.ingredients = (ingredients != null) ? ingredients : [];
   }
 
   int get calucateCalories {

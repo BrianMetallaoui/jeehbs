@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:jeehbs/constants/constants.dart';
-import 'package:jeehbs/controllers/controllers.dart';
-import 'package:jeehbs/data/data.dart';
-import 'package:jeehbs/utils/utils.dart';
+import 'package:jeehbs/controllers/food_x.dart';
+import 'package:jeehbs/data/food_repository.dart';
+import 'package:jeehbs/pages/home_page/home_page.dart';
+import 'package:jeehbs/utils/color_functions.dart';
 
 void main() async {
-  await GetStorage.init(BoxId.foods);
+  await GetStorage.init();
   Get.put(FoodRepository());
   Get.put(FoodX(Get.find<FoodRepository>()));
 
@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         ).copyWith(secondary: accentColor),
         bottomAppBarColor: primaryColor,
       ),
-      getPages: getPages,
+      home: const HomePage(),
     );
   }
 }

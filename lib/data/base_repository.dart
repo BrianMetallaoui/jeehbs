@@ -1,6 +1,5 @@
 import 'package:get_storage/get_storage.dart';
-
-import 'package:jeehbs/models/models.dart';
+import 'package:jeehbs/models/base_model.dart';
 
 class BaseRepository<T extends BaseModel> {
   GetStorage box;

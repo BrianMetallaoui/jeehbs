@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:jeehbs/models/models.dart';
+import 'base_model.dart';
 
 class Ingredient extends BaseModel {
   int? calories;

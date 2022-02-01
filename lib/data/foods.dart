@@ -1,4 +1,5 @@
-import 'package:jeehbs/models/models.dart';
+import 'package:jeehbs/models/food.dart';
+import 'package:jeehbs/models/ingredient.dart';
 
 List<Food> foods = [
   Food(

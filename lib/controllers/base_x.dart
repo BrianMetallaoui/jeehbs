@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:jeehbs/models/models.dart';
-import 'package:jeehbs/data/data.dart';
+import 'package:jeehbs/data/base_repository.dart';
+import 'package:jeehbs/models/base_model.dart';
 
 class BaseXController<T extends BaseModel> extends GetxController {
   final BaseRepository<T> repository;
