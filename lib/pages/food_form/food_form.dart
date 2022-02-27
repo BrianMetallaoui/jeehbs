@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jeehbs/controllers/food_x.dart';
 import 'package:jeehbs/models/food.dart';
+import 'package:jeehbs/models/ingredient.dart';
 import 'package:jeehbs/pages/food_form/components/search_foods.dart';
 import 'package:jeehbs/widgets/widgets.dart';
 
@@ -120,23 +121,7 @@ class _FoodFormState extends State<FoodForm> {
                   child: SingleChildScrollView(
                     child: IngredientGrid(
                       ingredients: food.ingredients,
-                      onTap: (input) async {
-                        var ing = await showIngredient(input);
-                        if (ing != null) {
-                          _formKey.currentState!.save();
-
-                          setState(() {
-                            var existing = food.ingredients
-                                .indexWhere((c) => c.id == ing.id);
-                            if (existing != -1) {
-                              food.ingredients[existing] = ing;
-                            } else {
-                              food.ingredients.add(ing);
-                            }
-                          });
-                          cpsFresh();
-                        }
-                      },
+                      onTap: editIngredient,
                       delete: (ing) => setState(() {
                         _formKey.currentState!.save();
                         food.ingredients.remove(ing);
@@ -166,23 +151,7 @@ class _FoodFormState extends State<FoodForm> {
                 BotNavButton(
                   label: 'Add',
                   icon: Icons.add,
-                  onTap: () async {
-                    var ing = await showIngredient();
-                    if (ing != null) {
-                      _formKey.currentState!.save();
-
-                      setState(() {
-                        var existing =
-                            food.ingredients.indexWhere((c) => c.id == ing.id);
-                        if (existing != -1) {
-                          food.ingredients[existing] = ing;
-                        } else {
-                          food.ingredients.add(ing);
-                        }
-                      });
-                      cpsFresh();
-                    }
-                  },
+                  onTap: editIngredient,
                 ),
                 const SizedBox(width: 20),
                 BotNavButton(
@@ -205,6 +174,23 @@ class _FoodFormState extends State<FoodForm> {
     );
   }
 
+  void editIngredient([Ingredient? input]) async {
+    var ing = await showIngredient(input);
+    if (ing != null) {
+      _formKey.currentState!.save();
+
+      setState(() {
+        var existing = food.ingredients.indexWhere((c) => c.id == ing.id);
+        if (existing != -1) {
+          food.ingredients[existing] = ing;
+        } else {
+          food.ingredients.add(ing);
+        }
+      });
+      cpsFresh();
+    }
+  }
+
   void refresh(Food? f) {
     food = (f != null) ? f : Food();
     if (thisId.isEmpty) thisId = food.id;
@@ -224,6 +210,7 @@ class _FoodFormState extends State<FoodForm> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       food.setId(thisId);
+      food.setCaloriesPerServing();
       Get.find<FoodX>().saveItem(food);
       Get.back();
     }
