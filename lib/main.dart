@@ -19,25 +19,57 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var primaryColor = const Color(0xFF004C54);
-    var accentColor = const Color(0xFF565A5C);
-    var primarySwatch = MaterialColor(
-      primaryColor.value,
-      getSwatch(primaryColor),
-    );
     return GetMaterialApp(
       title: 'Jeehbs',
       theme: ThemeData(
         inputDecorationTheme: const InputDecorationTheme(
           border: OutlineInputBorder(),
         ),
-        primarySwatch: primarySwatch,
-        colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: primarySwatch,
-        ).copyWith(secondary: accentColor),
-        bottomAppBarColor: primaryColor,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF004C54),
+          primary: const Color(0xFF004C54),
+          secondary: const Color(0xFF565A5C),
+        ),
+        bottomAppBarColor: const Color(0xFF004C54),
       ),
       home: const HomePage(),
     );
   }
+}
+
+void mains() {
+  // Find fir
+  DateTime today = DateTime.now();
+
+  print(findFirstDateOfTheWeek(today));
+
+  print(findLastDateOfTheWeek(today));
+
+  print(findFirstDateOfTheMonth(today));
+  print(findLastDateOfTheMonth(today));
+}
+
+/// Find the first date of the week which contains the provided date.
+
+DateTime findFirstDateOfTheWeek(DateTime dateTime) {
+  return dateTime.subtract(Duration(days: dateTime.weekday));
+}
+
+/// Find last date of the week which contains provided date.
+
+DateTime findLastDateOfTheWeek(DateTime dateTime) {
+  return dateTime
+      .add(Duration(days: DateTime.daysPerWeek - dateTime.weekday - 1));
+}
+
+/// Find the first date of the month which contains the provided date.
+
+DateTime findFirstDateOfTheMonth(DateTime dateTime) {
+  return DateTime(dateTime.year, dateTime.month, 1);
+}
+
+/// Find last date of the month which contains provided date.
+
+DateTime findLastDateOfTheMonth(DateTime dateTime) {
+  return DateTime(dateTime.year, dateTime.month + 1, 0);
 }
